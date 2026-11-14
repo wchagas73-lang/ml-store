@@ -27,6 +27,11 @@ content:
       - name: whatsapp
         label: WhatsApp com DDI e DDD, somente números
         type: string
+      - name: hero_image
+        label: Imagem de fundo do início
+        type: image
+        options:
+          media: images
       - name: hero_kicker
         label: Texto pequeno do início
         type: string
