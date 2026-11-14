@@ -1,0 +1,126 @@
+media:
+  - name: images
+    label: Imagens do site
+    input: media/images
+    output: /media/images
+    rename: safe
+    extensions: [jpg, jpeg, png, webp, gif]
+    categories: [image]
+content:
+  - name: site
+    label: Conteúdo do site
+    type: file
+    path: data/site.json
+    format: json
+    fields:
+      - name: brand_name
+        label: Nome da marca
+        type: string
+      - name: logo_image
+        label: Logo (opcional)
+        type: image
+        options:
+          media: images
+      - name: instagram
+        label: Link do Instagram
+        type: string
+      - name: whatsapp
+        label: WhatsApp com DDI e DDD, somente números
+        type: string
+      - name: hero_kicker
+        label: Texto pequeno do início
+        type: string
+      - name: hero_line1
+        label: Título principal, primeira linha
+        type: string
+      - name: hero_line2
+        label: Título principal, segunda linha
+        type: string
+      - name: hero_description
+        label: Texto de apresentação
+        type: text
+      - name: about_image
+        label: Foto da seção A marca
+        type: image
+        options:
+          media: images
+      - name: about_tag
+        label: Frase sobre a foto
+        type: string
+      - name: about_kicker
+        label: Texto pequeno da seção A marca
+        type: string
+      - name: about_title
+        label: Título da seção A marca
+        type: string
+      - name: about_text1
+        label: Primeiro parágrafo da marca
+        type: text
+      - name: about_text2
+        label: Segundo parágrafo da marca
+        type: text
+      - name: manifesto_kicker
+        label: Texto pequeno do manifesto
+        type: string
+      - name: manifesto_title
+        label: Título do manifesto
+        type: string
+      - name: manifesto_text
+        label: Texto do manifesto
+        type: text
+      - name: gallery_kicker
+        label: Texto pequeno da galeria
+        type: string
+      - name: gallery_title
+        label: Título da galeria
+        type: string
+      - name: gallery_description
+        label: Descrição da galeria
+        type: text
+      - name: video_image
+        label: Imagem de capa do vídeo
+        type: image
+        options:
+          media: images
+      - name: video_url
+        label: Link do vídeo YouTube ou Vimeo
+        type: string
+      - name: video_kicker
+        label: Texto pequeno da campanha
+        type: string
+      - name: video_title
+        label: Título da campanha
+        type: string
+      - name: video_description
+        label: Descrição da campanha
+        type: text
+      - name: contact_kicker
+        label: Texto pequeno do contato
+        type: string
+      - name: contact_title
+        label: Título do contato
+        type: string
+      - name: contact_description
+        label: Texto do contato
+        type: text
+      - name: footer_description
+        label: Descrição do rodapé
+        type: text
+  - name: gallery
+    label: Fotos e kits da galeria
+    type: file
+    path: data/gallery.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Legenda da foto ou kit
+        type: string
+      - name: image
+        label: Imagem
+        type: image
+        options:
+          media: images
+settings:
+  content:
+    merge: true
