@@ -6,6 +6,13 @@ media:
     rename: safe
     extensions: [jpg, jpeg, png, webp, gif]
     categories: [image]
+  - name: videos
+    label: Vídeos da ML Store
+    input: media/videos
+    output: /media/videos
+    rename: safe
+    extensions: [mp4, webm, mov]
+    categories: [video]
 content:
   - name: site
     label: Conteúdo do site
@@ -87,9 +94,14 @@ content:
         type: image
         options:
           media: images
-      - name: video_url
-        label: Link do vídeo YouTube ou Vimeo
-        type: string
+      - name: video_file
+        label: Vídeo enviado pela galeria do celular
+        type: file
+        description: Envie um vídeo MP4, WebM ou MOV. Para melhor compatibilidade, prefira MP4 com até 25 MB.
+        options:
+          media: videos
+          extensions: [mp4, webm, mov]
+          categories: [video]
       - name: video_kicker
         label: Texto pequeno da campanha
         type: string
