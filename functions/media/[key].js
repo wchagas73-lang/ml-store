@@ -2,7 +2,7 @@ import { json } from "../api/_lib.js";
 
 function parseRange(value, size) {
   if (!value) return null;
-  const match = /^bytes=(\\d*)-(\\d*)$/.exec(value.trim());
+  const match = /^bytes=(\d*)-(\d*)$/.exec(value.trim());
   if (!match) return false;
   let start, end;
   if (match[1] === "") {
@@ -21,7 +21,7 @@ function parseRange(value, size) {
 export async function onRequestGet({ request, env, params }) {
   if (!env.MEDIA_BUCKET) return json({ ok: false, error: "Mídia ainda não configurada." }, 503);
   const key = String(params.key || "");
-  if (!/^[a-f0-9-]{36}\\.(jpg|png|webp|avif|mp4|webm)$/.test(key)) return json({ ok: false, error: "Arquivo não encontrado." }, 404);
+  if (!/^[a-f0-9-]{36}\.(jpg|png|webp|avif|mp4|webm)$/.test(key)) return json({ ok: false, error: "Arquivo não encontrado." }, 404);
   const head = await env.MEDIA_BUCKET.head(key);
   if (!head) return json({ ok: false, error: "Arquivo não encontrado." }, 404);
   const rangeHeader = request.headers.get("range");
