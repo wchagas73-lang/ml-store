@@ -91,8 +91,12 @@ export async function fingerprint(value, secret) {
 
 export function requireSameOrigin(request) {
   const origin = request.headers.get("origin");
-  if (!origin) return true;
-  try { return new URL(origin).host === new URL(request.url).host; } catch { return false; }
+  if (!origin) return false;
+  try {
+    const source = new URL(origin);
+    const target = new URL(request.url);
+    return source.protocol === "https:" && source.origin === target.origin;
+  } catch { return false; }
 }
 
 export function safeText(value, max = 300) {
