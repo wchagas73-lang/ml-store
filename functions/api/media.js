@@ -17,10 +17,10 @@ export async function onRequestPost({ request, env }) {
   if (!requireSameOrigin(request)) return json({ ok: false, error: "Origem não autorizada." }, 403);
   const form = await request.formData();
   const file = form.get("file");
-  if (!(file instanceof File) || file.size < 1) return json({ ok: false, error: "Selecione uma imagem ou vídeo." }, 400);
+  if (!(file instanceof File) || file.size < 1) return json({ ok: false, error: "Selecione uma foto." }, 400);
   const type = file.type.toLowerCase();
-  const mediaType = IMAGE_TYPES.has(type) ? "image" : VIDEO_TYPES.has(type) ? "video" : "";
-  if (!mediaType) return json({ ok: false, error: "Formato não permitido. Use JPG, PNG, WebP, AVIF, MP4 ou WebM." }, 415);
+  const mediaType = IMAGE_TYPES.has(type) ? "image" : "";
+  if (!mediaType) return json({ ok: false, error: "Formato não permitido. Use JPG, PNG, WebP ou AVIF." }, 415);
   const signature = new Uint8Array(await file.slice(0, 16).arrayBuffer());
   const ascii = (start, value) => value.split("").every((char, index) => signature[start + index] === char.charCodeAt(0));
   const validSignature =
@@ -31,12 +31,12 @@ export async function onRequestPost({ request, env }) {
     ((type === "video/mp4") && ascii(4, "ftyp")) ||
     (type === "video/webm" && signature[0] === 0x1a && signature[1] === 0x45 && signature[2] === 0xdf && signature[3] === 0xa3);
   if (!validSignature) return json({ ok: false, error: "O conteúdo do arquivo não corresponde ao formato informado." }, 415);
-  if (file.size > (mediaType === "image" ? MAX_IMAGE : MAX_VIDEO)) return json({ ok: false, error: mediaType === "image" ? "Imagem acima de 8 MB." : "Vídeo acima de 40 MB." }, 413);
+  if (file.size > MAX_IMAGE) return json({ ok: false, error: "Foto acima de 5 MB. Reduza o tamanho antes de enviar." }, 413);
 
   const count = await env.DB.prepare("SELECT COUNT(*) AS total, COALESCE(MAX(sort_order), -1) AS max_order FROM media_items").first();
   if ((count?.total || 0) >= 16) return json({ ok: false, error: "Limite de 16 mídias atingido. Apague uma mídia antes de enviar outra." }, 409);
 
-  const extension = ({ "image/jpeg":"jpg", "image/png":"png", "image/webp":"webp", "image/avif":"avif", "video/mp4":"mp4", "video/webm":"webm" })[type];
+  const extension = ({ "image/jpeg":"jpg", "image/png":"png", "image/webp":"webp", "image/avif":"avif" })[type];
   const id = crypto.randomUUID();
   const key = id + "." + extension;
   const title = safeText(form.get("title"), 100);
