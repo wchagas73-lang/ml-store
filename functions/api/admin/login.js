@@ -7,7 +7,8 @@ export async function onRequestPost({ request, env }) {
   const ipKey = await fingerprint(request.headers.get("cf-connecting-ip") || "unknown", env.SESSION_SECRET);
   const now = new Date().toISOString();
   const since = new Date(Date.now() - 15 * 60 * 1000).toISOString();
-  const attempts = await env.DB.prepare("SELECT COUNT(*) AS total FROM admin_login_attempts WHERE ip_hash = ? AND created_at >= ?").bind(ipKey, since).first();
+  await env.DB.prepare("DELETE FROM admin_login_attempts WHERE created_at < ?").bind(since).run();
+  const attempts = await env.DB.prepare("SELECT COUNT(*) AS total FROM admin_login_attempts WHERE ip_hash = ? AND succeeded = 0 AND created_at >= ?").bind(ipKey, since).first();
   if ((attempts?.total || 0) >= 8) return json({ ok: false, error: "Muitas tentativas. Aguarde 15 minutos." }, 429);
 
   let body;
