@@ -175,14 +175,14 @@ content:
           media: images
 
   - name: ticker
-    label: Faixa horizontal deslizante
+    label: EDITAR FRASES DA FAIXA DESLIZANTE
     type: file
     path: data/ticker.json
     format: json
     list: true
     fields:
       - name: text
-        label: Texto que aparece na faixa
+        label: Frase exibida na faixa horizontal (edite o texto aqui)
         type: string
 
   - name: highlights
