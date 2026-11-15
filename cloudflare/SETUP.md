@@ -1,72 +1,33 @@
-# Cloudflare setup for ML Store
+# ML Store: arquitetura de conteúdo pelo GitHub
 
-This repository contains the ML Store Pages site, Pages Functions, D1 migration and R2 media handling.
+O site público é hospedado no Cloudflare Pages. O conteúdo editável e as imagens ficam no próprio repositório GitHub.
 
-## Cloudflare resources
+## Como editar
 
-Create these resources in the Cloudflare account that owns the ML Store Pages project:
+1. Abra o painel em https://ml-store-emt.pages.dev/admin.html.
+2. Acesse o Pages CMS em https://app.pagescms.org/.
+3. Entre com GitHub e autorize o repositório `wchagas73-lang/ml-store`.
+4. Selecione a branch `main`.
+5. Edite o arquivo **Conteúdo e identidade do site** para trocar textos, contatos e imagens principais.
+6. Edite **Fotos da galeria** para administrar a sequência de imagens.
+7. Salve. O Pages CMS grava os arquivos no GitHub. A integração Git do Cloudflare Pages publica o novo conteúdo após o commit.
 
-- D1 database, for example `ml-store-db`.
-- R2 bucket, for example `ml-store-media`.
+## Armazenamento de imagens
 
-## Bindings
+- As imagens enviadas pelo CMS ficam em `media/images/`.
+- O site as utiliza por caminhos públicos `/media/images/...`.
+- Prefira JPG ou WebP otimizados. Evite imagens muito grandes.
+- Como os arquivos ficam no Git, o histórico de commits também guarda versões anteriores. Remova arquivos que não são mais necessários quando for seguro fazê-lo.
 
-In the ML Store Pages project settings, add these production bindings:
+## Serviços que não são necessários neste projeto
 
-| Type | Binding name | Resource |
-| --- | --- | --- |
-| D1 database | `DB` | The ML Store D1 database |
-| R2 bucket | `MEDIA_BUCKET` | The ML Store R2 bucket |
+- Cloudflare D1
+- Cloudflare R2
+- Banco de dados próprio
+- Segredos de login administrativo no Pages
 
-Add the same bindings to Preview only if you intend to test admin uploads in Preview. Prefer a separate test database and bucket for Preview.
+O Pages CMS é um serviço externo de edição integrado ao GitHub. O acesso ao repositório é autorizado pela conta GitHub. O conteúdo da loja continua armazenado no GitHub.
 
-## Apply the D1 migration
+## Importante
 
-Run the complete file `migrations/0001_init.sql` against the ML Store database. It creates site settings, media metadata, audit history and login throttling tables. Do not apply it to any other project.
-
-## Configure admin secrets
-
-1. Open `/cloudflare/generate-hash.html` on the deployed ML Store domain over HTTPS.
-2. Create a unique password with at least 12 characters and generate the credentials. The page uses browser Web Crypto locally. The password is not sent to a server.
-3. In Pages project settings, add these as encrypted production secrets:
-   - `ADMIN_PASSWORD_HASH`: the generated PBKDF2 hash.
-   - `SESSION_SECRET`: the generated random secret.
-4. Do not paste either value into GitHub, source files, chat, WhatsApp or public variables.
-5. Close the credential generator after saving the secrets.
-
-The expected password hash format is `pbkdf2$sha256$210000$SALT$HASH`.
-
-## Features implemented
-
-- `/admin.html`: mobile-friendly admin login and content editor.
-- `/api/admin/login`, `/api/admin/session`, `/api/admin/logout`: signed, HttpOnly admin session.
-- `/api/content`: public content read and authenticated content save.
-- `/api/media`: authenticated media upload and media listing.
-- `/api/media/:id`: authenticated media title, order and deletion operations.
-- `/media/:key`: controlled public delivery from the R2 bucket.
-
-The admin session expires after 12 hours. Login attempts are throttled by a hashed client address. Uploads accept JPEG/JPG, PNG, WebP and AVIF photos up to 5 MB each. On supported mobile browsers, the admin panel automatically resizes large images to a maximum edge of 1,800 pixels and tries to encode them as WebP before upload, keeping the smaller result. If the browser cannot process the image, the original is sent. The total library limit is 16 photos. The 5 MB and 16-photo limits are enforced by the API, not just the browser. Video upload and playback are not part of this project.
-
-## Replacement and deletion behavior
-
-Upload a replacement first, save its metadata, then remove the old file from the panel. Deleting a media item removes its D1 metadata and the corresponding R2 object. This keeps storage from growing indefinitely when old content is actually deleted.
-
-## Deployment safety
-
-The public site continues to use the static JSON demonstration content until the D1 and R2 bindings, migration and secrets are configured. Do not treat the admin panel as production-ready until those Cloudflare resources are connected and login, upload, public media delivery and deletion have all been tested on the deployed domain.
-
-## Pages deployment settings
-
-The application uses Cloudflare Pages Functions from the repository's `functions/` directory. No separate Worker project is required.
-
-For the existing Pages project, keep the production branch as `main`, use the repository root as the project root, leave the build command empty for this static HTML project, and use `.` as the build output directory. Do not change the public domain or migrate this project to another hosting provider.
-
-After adding the D1 and R2 bindings and secrets, trigger a new Pages deployment so the Functions receive those bindings. The admin panel includes an authenticated infrastructure status check at `/api/admin/health`. It reports whether D1, R2, the migration tables and the required secrets are available without revealing secret values.
-
-## Security and media delivery
-
-- Mutating admin requests require an HTTPS same-origin request and a valid signed admin session.
-- The session cookie is HttpOnly, Secure and SameSite=Strict.
-- Uploads are checked against their declared MIME type using file signatures before being stored.
-- R2 media delivery serves photo files.
-- Static security headers are defined in the root `_headers` file. API responses independently set `Cache-Control: no-store`.
+O primeiro acesso ao Pages CMS ainda exige que o proprietário entre com GitHub e autorize o aplicativo no repositório. Não compartilhe tokens, senhas ou códigos de autenticação. O site público permanece independente do painel e continua sendo servido pelo Cloudflare Pages.
