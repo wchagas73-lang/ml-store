@@ -6,14 +6,6 @@ media:
     rename: safe
     extensions: [jpg, jpeg, png, webp, avif]
     categories: [image]
-  - name: videos
-    label: Vídeos da ML Store
-    input: media/videos
-    output: /media/videos
-    rename: safe
-    extensions: [mp4, webm, mov, m4v, ogv, 3gp]
-    categories: [video]
-
 content:
   - name: site
     label: Conteúdo e identidade do site
@@ -121,32 +113,6 @@ content:
         type: string
       - name: gallery_description
         label: Descrição da galeria
-        type: text
-      - name: video_file
-        label: Vídeo da campanha (MP4 recomendado, até 15 segundos e 20 MB)
-        type: file
-        options:
-          media: videos
-          categories: [video]
-          extensions: [mp4, webm, mov, m4v, ogv, 3gp]
-      - name: video_image
-        label: Capa do vídeo (foto exibida antes de reproduzir)
-        type: image
-        options:
-          media: images
-      - name: campaign_position
-        label: Enquadramento da capa da campanha
-        type: select
-        options:
-          values: ["center center", "left center", "right center", "center top", "center bottom", "left top", "right top", "left bottom", "right bottom"]
-      - name: video_kicker
-        label: Chamada da campanha
-        type: string
-      - name: video_title
-        label: Título da campanha
-        type: string
-      - name: video_description
-        label: Descrição da campanha
         type: text
       - name: contact_kicker
         label: Chamada do contato
