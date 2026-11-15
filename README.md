@@ -42,3 +42,11 @@ O Pages CMS é integrado ao GitHub. O proprietário precisa entrar com GitHub e 
 ## Observação sobre imagens
 
 Ao substituir uma imagem, prefira enviar o novo arquivo com um nome novo. Assim, a referência da imagem muda no arquivo JSON e o site identifica a atualização, evitando que o navegador reutilize uma versão antiga em cache.
+
+## Novos campos do CMS
+
+- **Frase sobre a foto:** o campo pode ficar vazio; nesse caso, a frase não aparece no site.
+- **Vídeo da campanha:** envie MP4 ou WebM pelo campo de arquivo. Use vídeo compactado, preferencialmente até 20 MB. O vídeo aparece com controles e não inicia sozinho.
+- **Faixa horizontal deslizante:** edite os textos em `data/ticker.json` pelo CMS.
+- **Artes modernas de destaque:** edite os três cards em `data/highlights.json`. Os elementos são feitos com CSS, sem imagens adicionais.
+
