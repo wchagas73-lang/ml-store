@@ -55,9 +55,20 @@ const setText=(key,value)=>{
 };
 const rawMediaUrl=(path,revision='')=>{
   if(typeof path!=='string'||!path.trim())return '';
-  const clean=path.trim();
-  if(clean.startsWith('/media/')){
-    const url=CONTENT_BASE+clean.slice(1);
+  let clean=path.trim().replace(/\\\\/g,'/');
+  // O Pages CMS pode devolver o caminho com ou sem a barra inicial.
+  clean=clean.replace(/^\\.\\//,'');
+  if(clean.startsWith('/'))clean=clean.slice(1);
+  if(clean.startsWith('media/')){
+    // caminho já no formato esperado
+  }else if(clean.startsWith('images/')){
+    clean='media/'+clean;
+  }else if(!/^https?:\\/\\//i.test(clean)&&/\\.(jpe?g|png|webp|avif|gif)$/i.test(clean)){
+    clean='media/images/'+clean.split('/').pop();
+  }
+  if(clean.startsWith('media/')){
+    const safePath=clean.split('/').map(part=>encodeURIComponent(part)).join('/');
+    const url=CONTENT_BASE+safePath;
     return revision?url+'?v='+encodeURIComponent(revision):url;
   }
   try{
