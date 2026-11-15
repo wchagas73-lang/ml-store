@@ -6,6 +6,13 @@ media:
     rename: safe
     extensions: [jpg, jpeg, png, webp, avif]
     categories: [image]
+  - name: videos
+    label: Vídeos da ML Store
+    input: media/videos
+    output: /media/videos
+    rename: safe
+    extensions: [mp4, webm]
+    categories: [video]
 
 content:
   - name: site
@@ -70,7 +77,7 @@ content:
             - name: image-right
               label: Foto à direita
       - name: about_tag
-        label: Frase sobre a foto
+        label: Frase sobre a foto (pode deixar vazio)
         type: string
       - name: about_kicker
         label: Chamada da seção A marca
@@ -112,13 +119,20 @@ content:
       - name: gallery_description
         label: Descrição da galeria
         type: text
+      - name: video_file
+        label: Vídeo da campanha (MP4 ou WebM)
+        type: file
+        options:
+          media: videos
+          categories: [video]
+          extensions: [mp4, webm]
       - name: video_image
-        label: Foto da campanha
+        label: Capa do vídeo (foto exibida antes de reproduzir)
         type: image
         options:
           media: images
       - name: campaign_position
-        label: Enquadramento da foto da campanha
+        label: Enquadramento da capa da campanha
         type: select
         options:
           values: ["center center", "left center", "right center", "center top", "center bottom", "left top", "right top", "left bottom", "right bottom"]
@@ -159,6 +173,34 @@ content:
         type: image
         options:
           media: images
+
+  - name: ticker
+    label: Faixa horizontal deslizante
+    type: file
+    path: data/ticker.json
+    format: json
+    list: true
+    fields:
+      - name: text
+        label: Texto que aparece na faixa
+        type: string
+
+  - name: highlights
+    label: Artes modernas de destaque
+    type: file
+    path: data/highlights.json
+    format: json
+    list: true
+    fields:
+      - name: kicker
+        label: Texto pequeno
+        type: string
+      - name: title
+        label: Título em destaque
+        type: string
+      - name: description
+        label: Descrição curta
+        type: text
 
 settings:
   content:
