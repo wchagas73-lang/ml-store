@@ -54,3 +54,19 @@ Upload a replacement first, save its metadata, then remove the old file from the
 ## Deployment safety
 
 The public site continues to use the static JSON demonstration content until the D1 and R2 bindings, migration and secrets are configured. Do not treat the admin panel as production-ready until those Cloudflare resources are connected and login, upload, public media delivery and deletion have all been tested on the deployed domain.
+
+## Pages deployment settings
+
+The application uses Cloudflare Pages Functions from the repository's `functions/` directory. No separate Worker project is required.
+
+For the existing Pages project, keep the production branch as `main`, use the repository root as the project root, leave the build command empty for this static HTML project, and use `.` as the build output directory. Do not change the public domain or migrate this project to another hosting provider.
+
+After adding the D1 and R2 bindings and secrets, trigger a new Pages deployment so the Functions receive those bindings. The admin panel includes an authenticated infrastructure status check at `/api/admin/health`. It reports whether D1, R2, the migration tables and the required secrets are available without revealing secret values.
+
+## Security and media delivery
+
+- Mutating admin requests require an HTTPS same-origin request and a valid signed admin session.
+- The session cookie is HttpOnly, Secure and SameSite=Strict.
+- Uploads are checked against their declared MIME type using file signatures before being stored.
+- R2 media delivery supports HTTP byte ranges, which is important for seeking in videos on mobile browsers.
+- Static security headers are defined in the root `_headers` file. API responses independently set `Cache-Control: no-store`.
