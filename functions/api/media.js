@@ -1,9 +1,7 @@
 import { json, isAdmin, requireSameOrigin, safeText } from "./_lib.js";
 
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
-const VIDEO_TYPES = new Set(["video/mp4", "video/webm"]);
-const MAX_IMAGE = 8 * 1024 * 1024;
-const MAX_VIDEO = 40 * 1024 * 1024;
+const MAX_IMAGE = 5 * 1024 * 1024;
 
 export async function onRequestGet({ env }) {
   if (!env.DB) return json({ ok: false, error: "Armazenamento ainda não configurado." }, 503);
@@ -27,9 +25,7 @@ export async function onRequestPost({ request, env }) {
     (type === "image/jpeg" && signature[0] === 0xff && signature[1] === 0xd8 && signature[2] === 0xff) ||
     (type === "image/png" && signature[0] === 0x89 && ascii(1, "PNG") && signature[4] === 0x0d && signature[5] === 0x0a && signature[6] === 0x1a && signature[7] === 0x0a) ||
     (type === "image/webp" && ascii(0, "RIFF") && ascii(8, "WEBP")) ||
-    (type === "image/avif" && ascii(4, "ftyp") && (ascii(8, "avif") || ascii(8, "avis"))) ||
-    ((type === "video/mp4") && ascii(4, "ftyp")) ||
-    (type === "video/webm" && signature[0] === 0x1a && signature[1] === 0x45 && signature[2] === 0xdf && signature[3] === 0xa3);
+    (type === "image/avif" && ascii(4, "ftyp") && (ascii(8, "avif") || ascii(8, "avis")));
   if (!validSignature) return json({ ok: false, error: "O conteúdo do arquivo não corresponde ao formato informado." }, 415);
   if (file.size > MAX_IMAGE) return json({ ok: false, error: "Foto acima de 5 MB. Reduza o tamanho antes de enviar." }, 413);
 
