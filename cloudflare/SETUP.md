@@ -1,27 +1,56 @@
 # Cloudflare setup for ML Store
 
-This folder contains the database migration and deployment notes for the ML Store Cloudflare Pages project.
+This repository contains the ML Store Pages site, Pages Functions, D1 migration and R2 media handling.
 
-## Services
-- Pages: public site and Pages Functions.
-- D1: site settings, media metadata, ordering and audit records.
-- R2: original image/video objects.
+## Cloudflare resources
 
-## Initial D1 migration
-Apply `migrations/0001_init.sql` to the ML Store D1 database only.
+Create these resources in the Cloudflare account that owns the ML Store Pages project:
 
-## Required bindings (to be configured in the ML Store Pages project)
-- D1 binding name: `DB`
-- R2 binding name: `MEDIA_BUCKET`
+- D1 database, for example `ml-store-db`.
+- R2 bucket, for example `ml-store-media`.
 
-## Required secrets (never commit values)
-- `ADMIN_PASSWORD_HASH`: PBKDF2-SHA-256 password hash generated for the store owner.
-- `SESSION_SECRET`: long random secret used to sign admin sessions.
+## Bindings
 
-Do not put passwords, API tokens, account IDs, or secret values in frontend files or this repository.
+In the ML Store Pages project settings, add these production bindings:
 
-## Media behavior
-The API must upload new objects to R2, save metadata in D1, and delete the old R2 object only after the replacement metadata has been saved successfully. Deletion must also remove the corresponding D1 record. Public media delivery should use a controlled Pages Function or a configured public R2 custom domain.
+| Type | Binding name | Resource |
+| --- | --- | --- |
+| D1 database | `DB` | The ML Store D1 database |
+| R2 bucket | `MEDIA_BUCKET` | The ML Store R2 bucket |
+
+Add the same bindings to Preview only if you intend to test admin uploads in Preview. Prefer a separate test database and bucket for Preview.
+
+## Apply the D1 migration
+
+Run the complete file `migrations/0001_init.sql` against the ML Store database. It creates site settings, media metadata, audit history and login throttling tables. Do not apply it to any other project.
+
+## Configure admin secrets
+
+1. Open `/cloudflare/generate-hash.html` on the deployed ML Store domain over HTTPS.
+2. Create a unique password with at least 12 characters and generate the credentials. The page uses browser Web Crypto locally. The password is not sent to a server.
+3. In Pages project settings, add these as encrypted production secrets:
+   - `ADMIN_PASSWORD_HASH`: the generated PBKDF2 hash.
+   - `SESSION_SECRET`: the generated random secret.
+4. Do not paste either value into GitHub, source files, chat, WhatsApp or public variables.
+5. Close the credential generator after saving the secrets.
+
+The expected password hash format is `pbkdf2$sha256$210000$SALT$HASH`.
+
+## Features implemented
+
+- `/admin.html`: mobile-friendly admin login and content editor.
+- `/api/admin/login`, `/api/admin/session`, `/api/admin/logout`: signed, HttpOnly admin session.
+- `/api/content`: public content read and authenticated content save.
+- `/api/media`: authenticated media upload and media listing.
+- `/api/media/:id`: authenticated media title, order and deletion operations.
+- `/media/:key`: controlled public delivery from the R2 bucket.
+
+The admin session expires after 12 hours. Login attempts are throttled by a hashed client address. Uploads accept JPEG, PNG, WebP and AVIF images up to 8 MB, and MP4 or WebM videos up to 40 MB. The total gallery limit is 16 media files. These limits are enforced by the API, not just the browser.
+
+## Replacement and deletion behavior
+
+Upload a replacement first, save its metadata, then remove the old file from the panel. Deleting a media item removes its D1 metadata and the corresponding R2 object. This keeps storage from growing indefinitely when old content is actually deleted.
 
 ## Deployment safety
-Do not deploy Functions that depend on missing bindings. Create and bind D1/R2 in the Cloudflare dashboard first, apply the migration, then configure secrets and deploy.
+
+The public site continues to use the static JSON demonstration content until the D1 and R2 bindings, migration and secrets are configured. Do not treat the admin panel as production-ready until those Cloudflare resources are connected and login, upload, public media delivery and deletion have all been tested on the deployed domain.
