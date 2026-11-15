@@ -25,7 +25,7 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
 </head>
 <body>
 <header><div class="wrap nav">
-<a class="brand" href="#inicio" aria-label="ML Store início"><span class="brand-mark" id="brandLogo">ML</span><span class="brand-name">ML STORE<small>RUA • ESTILO • IDENTIDADE</small></span></a>
+<a class="brand" href="#inicio" aria-label="ML Store início"><span class="brand-mark" id="brandLogo">ML</span><span class="brand-name" id="brandName">ML STORE<small>RUA • ESTILO • IDENTIDADE</small></span></a>
 <button class="menu" id="menu" aria-label="Abrir menu">☰</button>
 <nav class="links" id="links"><a href="#sobre">A marca</a><a href="#identidade">Manifesto</a><a href="#galeria">Galeria</a><a href="#campanha">Campanha</a><a href="#contato">Contato</a><a href="/admin.html">Painel administrativo</a><a class="btn" href="https://wa.me/5532999953215?text=Ol%C3%A1%2C%20quero%20conhecer%20a%20ML%20Store" target="_blank" rel="noopener">Fale conosco</a></nav>
 </div></header>
@@ -38,7 +38,7 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
 <section id="campanha" style="padding-top:0"><div class="wrap"><div class="video-panel"><div class="video-image" id="videoImage" role="img" aria-label="Foto da campanha ML Store"></div><div class="video-copy"><div class="eyebrow" data-cms="video_kicker">Campanha ML Store</div><h2 class="display" id="videoTitle">A rua tem<br><span class="gold">voz.</span></h2><p data-cms="video_description">Uma imagem para representar o estilo, a atitude e a identidade da ML Store.</p><a class="btn outline" href="https://www.instagram.com/mlstorejf_oficial/" target="_blank" rel="noopener">Conheça no Instagram ↗</a></div></div></div></section>
 <section class="contact" id="contato"><div class="wrap contact-grid"><div><div class="eyebrow" data-cms="contact_kicker">Conecte-se com a ML Store</div><h2 class="display" id="contactTitle">Chega junto.<br>Fale com a gente.</h2><p data-cms="contact_description">Quer saber mais sobre a marca? Nosso atendimento está a uma mensagem de distância.</p></div><a class="btn" href="https://wa.me/5532999953215?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20ML%20Store" target="_blank" rel="noopener">Chamar no WhatsApp ↗</a></div></section>
 </main>
-<footer><div class="wrap"><div class="footer-top"><div><a class="brand" href="#inicio"><span class="brand-mark">ML</span><span class="brand-name">ML STORE<small>RUA • ESTILO • IDENTIDADE</small></span></a><p class="footer-about" data-cms="footer_description">Moda urbana com identidade brasileira. Uma marca que carrega atitude, cultura e respeito às origens.</p></div><div class="footer-links"><a href="#sobre">A marca</a><a href="#galeria">Galeria</a><a href="#campanha">Campanha</a><a href="https://www.instagram.com/mlstorejf_oficial/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://wa.me/5532999953215" target="_blank" rel="noopener">WhatsApp ↗</a></div></div><div class="legal"><span>© 2026 ML STORE. Todos os direitos reservados.</span><span class="demo">SITE DEMONSTRATIVO • DADOS, IDENTIDADE E CONTEÚDOS FICTÍCIOS</span></div></div></footer>
+<footer><div class="wrap"><div class="footer-top"><div><a class="brand" href="#inicio"><span class="brand-mark">ML</span><span class="brand-name">ML STORE<small>RUA • ESTILO • IDENTIDADE</small></span></a><p class="footer-about" data-cms="footer_description">Moda urbana com identidade brasileira. Uma marca que carrega atitude, cultura e respeito às origens.</p></div><div class="footer-links"><a href="#sobre">A marca</a><a href="#galeria">Galeria</a><a href="#campanha">Campanha</a><a href="https://www.instagram.com/mlstorejf_oficial/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://wa.me/5532999953215" target="_blank" rel="noopener">WhatsApp ↗</a></div></div><div class="legal"><span>© 2026 ML STORE. Todos os direitos reservados.</span></div></div></footer>
 <a class="whats" href="https://wa.me/5532999953215?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20ML%20Store" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">✆</a>
 <script>
 const menu=document.getElementById('menu'),links=document.getElementById('links');
@@ -113,6 +113,7 @@ async function loadSiteContent(){
     if(revision===activeRevision)return;
     const s=JSON.parse(siteText),g=JSON.parse(galleryText);
     Object.keys(s).forEach(k=>setText(k,s[k]));
+    const brandName=document.getElementById('brandName');if(brandName&&s.brand_name)brandName.firstChild.textContent=s.brand_name;
     const hero=document.querySelector('.hero'),heroImage=rawMediaUrl(s.hero_image,revision);
     if(hero&&heroImage)hero.style.backgroundImage='linear-gradient(90deg,#050505 0%,#050505e8 37%,#05050555 72%,#05050550),url("'+heroImage+'")';
     if(hero&&s.hero_position)hero.style.backgroundPosition=s.hero_position;
