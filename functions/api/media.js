@@ -33,7 +33,7 @@ export async function onRequestPost({ request, env }) {
   if (!validSignature) return json({ ok: false, error: "O conteúdo do arquivo não corresponde ao formato informado." }, 415);
   if (file.size > (mediaType === "image" ? MAX_IMAGE : MAX_VIDEO)) return json({ ok: false, error: mediaType === "image" ? "Imagem acima de 8 MB." : "Vídeo acima de 40 MB." }, 413);
 
-  const count = await env.DB.prepare("SELECT COUNT(*) AS total FROM media_items").first();
+  const count = await env.DB.prepare("SELECT COUNT(*) AS total, COALESCE(MAX(sort_order), -1) AS max_order FROM media_items").first();
   if ((count?.total || 0) >= 16) return json({ ok: false, error: "Limite de 16 mídias atingido. Apague uma mídia antes de enviar outra." }, 409);
 
   const extension = ({ "image/jpeg":"jpg", "image/png":"png", "image/webp":"webp", "image/avif":"avif", "video/mp4":"mp4", "video/webm":"webm" })[type];
@@ -42,7 +42,7 @@ export async function onRequestPost({ request, env }) {
   const title = safeText(form.get("title"), 100);
   const alt = safeText(form.get("alt_text"), 180);
   const requestedOrder = form.get("sort_order") === null || form.get("sort_order") === "" ? NaN : Number(form.get("sort_order"));
-  const order = Number.isInteger(requestedOrder) ? Math.max(0, Math.min(1000, requestedOrder)) : (count?.total || 0);
+  const order = Number.isInteger(requestedOrder) ? Math.max(0, Math.min(1000, requestedOrder)) : (count?.max_order ?? -1) + 1;
   await env.MEDIA_BUCKET.put(key, file.stream(), { httpMetadata: { contentType: type, cacheControl: "public, max-age=31536000, immutable" } });
   try {
     await env.DB.prepare("INSERT INTO media_items (id, object_key, media_type, mime_type, title, alt_text, byte_size, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(id, key, mediaType, type, title, alt, file.size, order).run();
