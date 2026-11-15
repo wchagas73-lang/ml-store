@@ -1,21 +1,15 @@
 media:
   - name: images
-    label: Imagens do site
+    label: Fotos da ML Store
     input: media/images
     output: /media/images
     rename: safe
-    extensions: [jpg, jpeg, png, webp, gif]
+    extensions: [jpg, jpeg, png, webp, avif]
     categories: [image]
-  - name: videos
-    label: Vídeos da ML Store
-    input: media/videos
-    output: /media/videos
-    rename: safe
-    extensions: [mp4, webm, mov]
-    categories: [video]
+
 content:
   - name: site
-    label: Conteúdo do site
+    label: Conteúdo e identidade do site
     type: file
     path: data/site.json
     format: json
@@ -24,7 +18,7 @@ content:
         label: Nome da marca
         type: string
       - name: logo_image
-        label: Logo (opcional)
+        label: Logo da ML Store
         type: image
         options:
           media: images
@@ -35,18 +29,23 @@ content:
         label: WhatsApp com DDI e DDD, somente números
         type: string
       - name: hero_image
-        label: Imagem de fundo do início
+        label: Foto principal do topo
         type: image
         options:
           media: images
+      - name: hero_position
+        label: Enquadramento da foto do topo
+        type: select
+        options:
+          values: ["center center", "left center", "right center", "center top", "center bottom", "left top", "right top", "left bottom", "right bottom"]
       - name: hero_kicker
-        label: Texto pequeno do início
+        label: Chamada pequena do topo
         type: string
       - name: hero_line1
-        label: Título principal, primeira linha
+        label: Título principal, linha 1
         type: string
       - name: hero_line2
-        label: Título principal, segunda linha
+        label: Título principal, linha 2
         type: string
       - name: hero_description
         label: Texto de apresentação
@@ -56,11 +55,25 @@ content:
         type: image
         options:
           media: images
+      - name: about_position
+        label: Enquadramento da foto A marca
+        type: select
+        options:
+          values: ["center center", "left center", "right center", "center top", "center bottom", "left top", "right top", "left bottom", "right bottom"]
+      - name: about_layout
+        label: Posição da foto na seção A marca
+        type: select
+        options:
+          values:
+            - name: image-left
+              label: Foto à esquerda
+            - name: image-right
+              label: Foto à direita
       - name: about_tag
         label: Frase sobre a foto
         type: string
       - name: about_kicker
-        label: Texto pequeno da seção A marca
+        label: Chamada da seção A marca
         type: string
       - name: about_title
         label: Título da seção A marca
@@ -71,8 +84,18 @@ content:
       - name: about_text2
         label: Segundo parágrafo da marca
         type: text
+      - name: manifesto_image
+        label: Foto de fundo do manifesto
+        type: image
+        options:
+          media: images
+      - name: manifesto_position
+        label: Enquadramento do manifesto
+        type: select
+        options:
+          values: ["center center", "left center", "right center", "center top", "center bottom", "left top", "right top", "left bottom", "right bottom"]
       - name: manifesto_kicker
-        label: Texto pequeno do manifesto
+        label: Chamada do manifesto
         type: string
       - name: manifesto_title
         label: Título do manifesto
@@ -81,7 +104,7 @@ content:
         label: Texto do manifesto
         type: text
       - name: gallery_kicker
-        label: Texto pequeno da galeria
+        label: Chamada da galeria
         type: string
       - name: gallery_title
         label: Título da galeria
@@ -90,20 +113,17 @@ content:
         label: Descrição da galeria
         type: text
       - name: video_image
-        label: Imagem de capa do vídeo
+        label: Foto da campanha
         type: image
         options:
           media: images
-      - name: video_file
-        label: Vídeo enviado pela galeria do celular
-        type: file
-        description: Envie um vídeo MP4, WebM ou MOV. Para melhor compatibilidade, prefira MP4 com até 25 MB.
+      - name: campaign_position
+        label: Enquadramento da foto da campanha
+        type: select
         options:
-          media: videos
-          extensions: [mp4, webm, mov]
-          categories: [video]
+          values: ["center center", "left center", "right center", "center top", "center bottom", "left top", "right top", "left bottom", "right bottom"]
       - name: video_kicker
-        label: Texto pequeno da campanha
+        label: Chamada da campanha
         type: string
       - name: video_title
         label: Título da campanha
@@ -112,7 +132,7 @@ content:
         label: Descrição da campanha
         type: text
       - name: contact_kicker
-        label: Texto pequeno do contato
+        label: Chamada do contato
         type: string
       - name: contact_title
         label: Título do contato
@@ -121,23 +141,25 @@ content:
         label: Texto do contato
         type: text
       - name: footer_description
-        label: Descrição do rodapé
+        label: Texto do rodapé
         type: text
+
   - name: gallery
-    label: Fotos e kits da galeria
+    label: Fotos da galeria
     type: file
     path: data/gallery.json
     format: json
     list: true
     fields:
       - name: title
-        label: Legenda da foto ou kit
+        label: Legenda da foto
         type: string
       - name: image
-        label: Imagem
+        label: Foto
         type: image
         options:
           media: images
+
 settings:
   content:
     merge: true
