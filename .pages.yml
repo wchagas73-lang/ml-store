@@ -11,7 +11,7 @@ media:
     input: media/videos
     output: /media/videos
     rename: safe
-    extensions: [mp4, webm]
+    extensions: [mp4, webm, mov, m4v, ogv, 3gp]
     categories: [video]
 
 content:
@@ -120,12 +120,12 @@ content:
         label: Descrição da galeria
         type: text
       - name: video_file
-        label: Vídeo da campanha (MP4 ou WebM)
+        label: Vídeo da campanha (MP4 recomendado, até 15 segundos e 20 MB)
         type: file
         options:
           media: videos
           categories: [video]
-          extensions: [mp4, webm]
+          extensions: [mp4, webm, mov, m4v, ogv, 3gp]
       - name: video_image
         label: Capa do vídeo (foto exibida antes de reproduzir)
         type: image
