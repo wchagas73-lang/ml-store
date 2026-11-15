@@ -21,6 +21,16 @@ export async function onRequestPost({ request, env }) {
   const type = file.type.toLowerCase();
   const mediaType = IMAGE_TYPES.has(type) ? "image" : VIDEO_TYPES.has(type) ? "video" : "";
   if (!mediaType) return json({ ok: false, error: "Formato não permitido. Use JPG, PNG, WebP, AVIF, MP4 ou WebM." }, 415);
+  const signature = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+  const ascii = (start, value) => value.split("").every((char, index) => signature[start + index] === char.charCodeAt(0));
+  const validSignature =
+    (type === "image/jpeg" && signature[0] === 0xff && signature[1] === 0xd8 && signature[2] === 0xff) ||
+    (type === "image/png" && signature[0] === 0x89 && ascii(1, "PNG") && signature[4] === 0x0d && signature[5] === 0x0a && signature[6] === 0x1a && signature[7] === 0x0a) ||
+    (type === "image/webp" && ascii(0, "RIFF") && ascii(8, "WEBP")) ||
+    (type === "image/avif" && ascii(4, "ftyp") && (ascii(8, "avif") || ascii(8, "avis"))) ||
+    ((type === "video/mp4") && ascii(4, "ftyp")) ||
+    (type === "video/webm" && signature[0] === 0x1a && signature[1] === 0x45 && signature[2] === 0xdf && signature[3] === 0xa3);
+  if (!validSignature) return json({ ok: false, error: "O conteúdo do arquivo não corresponde ao formato informado." }, 415);
   if (file.size > (mediaType === "image" ? MAX_IMAGE : MAX_VIDEO)) return json({ ok: false, error: mediaType === "image" ? "Imagem acima de 8 MB." : "Vídeo acima de 40 MB." }, 413);
 
   const count = await env.DB.prepare("SELECT COUNT(*) AS total FROM media_items").first();
