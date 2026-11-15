@@ -41,3 +41,14 @@ INSERT OR IGNORE INTO site_settings (setting_key, setting_value)
 VALUES
   ('content_version', '1'),
   ('gallery_limit', '16');
+
+
+CREATE TABLE IF NOT EXISTS admin_login_attempts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ip_hash TEXT NOT NULL,
+  succeeded INTEGER NOT NULL DEFAULT 0 CHECK (succeeded IN (0, 1)),
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_admin_login_attempts_ip_created
+  ON admin_login_attempts(ip_hash, created_at);
