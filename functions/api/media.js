@@ -31,7 +31,8 @@ export async function onRequestPost({ request, env }) {
   const key = id + "." + extension;
   const title = safeText(form.get("title"), 100);
   const alt = safeText(form.get("alt_text"), 180);
-  const order = Number.isInteger(Number(form.get("sort_order"))) ? Math.max(0, Math.min(1000, Number(form.get("sort_order")))) : (count?.total || 0);
+  const requestedOrder = form.get("sort_order") === null || form.get("sort_order") === "" ? NaN : Number(form.get("sort_order"));
+  const order = Number.isInteger(requestedOrder) ? Math.max(0, Math.min(1000, requestedOrder)) : (count?.total || 0);
   await env.MEDIA_BUCKET.put(key, file.stream(), { httpMetadata: { contentType: type, cacheControl: "public, max-age=31536000, immutable" } });
   try {
     await env.DB.prepare("INSERT INTO media_items (id, object_key, media_type, mime_type, title, alt_text, byte_size, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(id, key, mediaType, type, title, alt, file.size, order).run();
