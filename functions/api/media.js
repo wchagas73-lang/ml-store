@@ -28,7 +28,7 @@ export async function onRequestPost({ request, env }) {
 
   const extension = ({ "image/jpeg":"jpg", "image/png":"png", "image/webp":"webp", "image/avif":"avif", "video/mp4":"mp4", "video/webm":"webm" })[type];
   const id = crypto.randomUUID();
-  const key = "uploads/" + id + "." + extension;
+  const key = id + "." + extension;
   const title = safeText(form.get("title"), 100);
   const alt = safeText(form.get("alt_text"), 180);
   const order = Number.isInteger(Number(form.get("sort_order"))) ? Math.max(0, Math.min(1000, Number(form.get("sort_order")))) : (count?.total || 0);
