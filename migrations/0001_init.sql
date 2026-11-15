@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS site_settings (
 CREATE TABLE IF NOT EXISTS media_items (
   id TEXT PRIMARY KEY,
   object_key TEXT NOT NULL UNIQUE,
-  media_type TEXT NOT NULL CHECK (media_type IN ('image', 'video')),
+  media_type TEXT NOT NULL CHECK (media_type = 'image'),
   mime_type TEXT NOT NULL,
   title TEXT NOT NULL DEFAULT '',
   alt_text TEXT NOT NULL DEFAULT '',
