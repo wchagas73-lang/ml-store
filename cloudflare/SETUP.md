@@ -45,7 +45,7 @@ The expected password hash format is `pbkdf2$sha256$210000$SALT$HASH`.
 - `/api/media/:id`: authenticated media title, order and deletion operations.
 - `/media/:key`: controlled public delivery from the R2 bucket.
 
-The admin session expires after 12 hours. Login attempts are throttled by a hashed client address. Uploads accept JPEG, PNG, WebP and AVIF images up to 8 MB, and MP4 or WebM videos up to 40 MB. The total gallery limit is 16 media files. These limits are enforced by the API, not just the browser.
+The admin session expires after 12 hours. Login attempts are throttled by a hashed client address. Uploads accept only JPEG, PNG, WebP and AVIF photos up to 5 MB each. The total library limit is 16 photos. These limits are enforced by the API, not just the browser. Video upload and playback are not part of this project.
 
 ## Replacement and deletion behavior
 
@@ -68,5 +68,5 @@ After adding the D1 and R2 bindings and secrets, trigger a new Pages deployment 
 - Mutating admin requests require an HTTPS same-origin request and a valid signed admin session.
 - The session cookie is HttpOnly, Secure and SameSite=Strict.
 - Uploads are checked against their declared MIME type using file signatures before being stored.
-- R2 media delivery supports HTTP byte ranges, which is important for seeking in videos on mobile browsers.
+- R2 media delivery serves photo files.
 - Static security headers are defined in the root `_headers` file. API responses independently set `Cache-Control: no-store`.
