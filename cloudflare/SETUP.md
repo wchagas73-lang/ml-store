@@ -45,7 +45,7 @@ The expected password hash format is `pbkdf2$sha256$210000$SALT$HASH`.
 - `/api/media/:id`: authenticated media title, order and deletion operations.
 - `/media/:key`: controlled public delivery from the R2 bucket.
 
-The admin session expires after 12 hours. Login attempts are throttled by a hashed client address. Uploads accept only JPEG, PNG, WebP and AVIF photos up to 5 MB each. The total library limit is 16 photos. These limits are enforced by the API, not just the browser. Video upload and playback are not part of this project.
+The admin session expires after 12 hours. Login attempts are throttled by a hashed client address. Uploads accept JPEG/JPG, PNG, WebP and AVIF photos up to 5 MB each. On supported mobile browsers, the admin panel automatically resizes large images to a maximum edge of 1,800 pixels and tries to encode them as WebP before upload, keeping the smaller result. If the browser cannot process the image, the original is sent. The total library limit is 16 photos. The 5 MB and 16-photo limits are enforced by the API, not just the browser. Video upload and playback are not part of this project.
 
 ## Replacement and deletion behavior
 
