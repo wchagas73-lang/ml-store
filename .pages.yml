@@ -177,6 +177,22 @@ content:
         options:
           media: images
 
+  - name: carousel
+    label: Carrossel automático de fotos (até 10 imagens)
+    type: file
+    path: data/carousel.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Legenda da foto (opcional)
+        type: string
+      - name: image
+        label: Selecione a foto
+        type: image
+        options:
+          media: images
+
   - name: ticker
     label: EDITAR FRASES DA FAIXA DESLIZANTE
     type: file
