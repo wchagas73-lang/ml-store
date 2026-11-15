@@ -49,7 +49,8 @@ export async function verifySession(token, secret) {
 export function readCookie(request, name = COOKIE_NAME) {
   const cookie = request.headers.get("cookie") || "";
   const entry = cookie.split(";").map(x => x.trim()).find(x => x.startsWith(name + "="));
-  return entry ? decodeURIComponent(entry.slice(name.length + 1)) : "";
+  if (!entry) return "";
+  try { return decodeURIComponent(entry.slice(name.length + 1)); } catch { return ""; }
 }
 
 export async function isAdmin(request, env) {
