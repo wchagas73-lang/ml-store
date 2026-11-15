@@ -57,6 +57,9 @@ content:
       - name: hero_description
         label: Texto de apresentação
         type: text
+      - name: ticker_text
+        label: FRASE DA FAIXA HORIZONTAL DESLIZANTE (EDITE AQUI)
+        type: string
       - name: about_image
         label: Foto da seção A marca
         type: image
