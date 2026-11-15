@@ -114,6 +114,9 @@ content:
       - name: gallery_description
         label: Descrição da galeria
         type: text
+      - name: carousel_phrase
+        label: Frase de impacto da coleção (carrossel)
+        type: string
       - name: contact_kicker
         label: Chamada do contato
         type: string
