@@ -202,12 +202,13 @@ const setLinks=site=>{
     const number=String(site.whatsapp||'').replace(/\D/g,'');
     if(/^\d{10,13}$/.test(number)){
       const oldText=new URL(a.href).searchParams.get('text');
-      a.href='https://wa.me/'+number+(oldText?'?text='+encodeURIComponent(oldText):'');
-    }
+      a.href='https://wa.me/'+number+(oldText?'?text='+encodeURIComponent(oldText):'');a.hidden=false;
+    }else a.hidden=true;
   });
   document.querySelectorAll('a[href*="instagram.com/"]').forEach(a=>{
     const url=rawMediaUrl(site.instagram);
-    if(url){const host=new URL(url).hostname;if(host==='instagram.com'||host==='www.instagram.com')a.href=url}
+    if(url){const host=new URL(url).hostname;if(host==='instagram.com'||host==='www.instagram.com'){a.href=url;a.hidden=false;}}
+    else a.hidden=true;
   });
 };
 const setRichTitle=(id,value,mode)=>{
@@ -249,7 +250,7 @@ async function loadSiteContent(){
     const brandName=document.getElementById('brandName');if(brandName)brandName.firstChild.textContent=String(s.brand_name??'');
     const hero=document.querySelector('.hero'),heroImage=rawMediaUrl(s.hero_image,revision);
     if(hero)hero.style.backgroundImage=heroImage?'linear-gradient(90deg,#050505 0%,#050505e8 37%,#05050555 72%,#05050550),url("'+heroImage+'")':'linear-gradient(90deg,#050505 0%,#050505 100%)';
-    if(hero&&s.hero_position)hero.style.backgroundPosition=s.hero_position;
+    if(hero)hero.style.backgroundPosition=s.hero_position||'center center';
     const h1=document.getElementById('heroLine1'),h2=document.getElementById('heroLine2');
     if(h1)h1.textContent=String(s.hero_line1??'');
     if(h2)h2.textContent=String(s.hero_line2??'');
@@ -263,10 +264,10 @@ async function loadSiteContent(){
     const aboutGrid=document.querySelector('.about-grid');
     if(aboutGrid)aboutGrid.classList.toggle('image-right',s.about_layout==='image-right');
     const aboutImage=document.getElementById('aboutImage');
-    if(aboutImage&&s.about_position)aboutImage.style.objectPosition=s.about_position;
+    if(aboutImage)aboutImage.style.objectPosition=s.about_position||'center center';
     const manifesto=document.querySelector('.manifesto'),manifestoImage=rawMediaUrl(s.manifesto_image,revision);
     if(manifesto)manifesto.style.backgroundImage=manifestoImage?'url("'+manifestoImage+'")':'none';
-    if(manifesto&&s.manifesto_position)manifesto.style.backgroundPosition=s.manifesto_position;
+    if(manifesto)manifesto.style.backgroundPosition=s.manifesto_position||'center center';
     setImage('aboutImage',s.about_image,revision);
     // Carrossel contínuo: duplicação das fotos evita salto no reinício e mantém o toque livre.
     const carouselTrack=document.getElementById('carouselTrack');
