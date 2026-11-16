@@ -218,8 +218,8 @@ content:
             type: string
             required: false
 
-  - name: ticker
-    label: EDITAR COMENTÁRIOS
+  - name: reviews
+    label: COMENTÁRIOS DOS CLIENTES
     type: file
     path: data/reviews.json
     format: json
