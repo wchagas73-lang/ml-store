@@ -257,7 +257,7 @@ async function loadSiteContent(){
     if(aboutGrid)aboutGrid.classList.toggle('image-right',s.about_layout==='image-right');
     const aboutImage=document.getElementById('aboutImage');
     if(aboutImage&&s.about_position)aboutImage.style.objectPosition=s.about_position;
-    const manifesto=document.querySelector('.manifesto'),manifestoImage=rawMediaUrl(s.manifesto_image,revision);
+    const manifesto=document.querySelector('.manifesto-image'),manifestoImage=rawMediaUrl(s.manifesto_image,revision);
     if(manifesto&&manifestoImage)manifesto.style.backgroundImage='url("'+manifestoImage+'")';
     if(manifesto&&s.manifesto_position)manifesto.style.backgroundPosition=s.manifesto_position;
     setImage('aboutImage',s.about_image,revision);
