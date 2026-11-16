@@ -244,7 +244,7 @@ content:
             - name: CLIENTE
               label: Depoimento de cliente real
       - name: avatar
-        label: Foto da pessoa (com autorização)
+        label: Foto da pessoa
         description: Envie uma foto real somente com autorização. Para comentários demonstrativos, mantenha sem foto ou use avatar ilustrativo identificado como demonstrativo.
         type: image
         required: false
