@@ -219,40 +219,6 @@ content:
             type: string
             required: false
 
-  - name: reviews
-    label: COMENTÁRIOS DOS CLIENTES
-    type: file
-    path: data/reviews.json
-    format: json
-    list: true
-    fields:
-      - name: name
-        label: Nome exibido
-        description: Use o nome autorizado pela pessoa ou um nome demonstrativo claramente identificado.
-        type: string
-      - name: text
-        label: Texto do comentário
-        type: text
-      - name: kind
-        label: Identificação do comentário
-        type: select
-        required: true
-        options:
-          values:
-            - name: DEMONSTRATIVO
-              label: Exemplo demonstrativo
-            - name: CLIENTE
-              label: Depoimento de cliente real
-      - name: avatar
-        label: Foto da pessoa
-        description: Envie uma foto real somente com autorização. Para comentários demonstrativos, mantenha sem foto ou use avatar ilustrativo identificado como demonstrativo.
-        type: image
-        required: false
-        options:
-          media: images
-          path: media/images
-          extensions: [jpg, jpeg, png, webp]
-
   - name: highlights
     label: Artes modernas de destaque
     type: file
