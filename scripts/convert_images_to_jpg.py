@@ -2,7 +2,7 @@ from pathlib import Path
 from PIL import Image, ImageOps
 import json
 
-MEDIA = Path("media/images")
+MEDIA = Path("media/images")  # JPGs ficam no diretorio publicado e editavel pelo CMS
 ORIGINALS = Path("media/originals")
 MEDIA.mkdir(parents=True, exist_ok=True)
 
