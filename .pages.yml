@@ -232,6 +232,16 @@ content:
       - name: text
         label: Texto do comentário
         type: text
+      - name: kind
+        label: Identificação do comentário
+        type: select
+        required: true
+        options:
+          values:
+            - name: DEMONSTRATIVO
+              label: Exemplo demonstrativo
+            - name: CLIENTE
+              label: Depoimento de cliente real
       - name: avatar
         label: Foto da pessoa (com autorização)
         description: Envie uma foto real somente com autorização. Para comentários demonstrativos, mantenha sem foto ou use avatar ilustrativo identificado como demonstrativo.
