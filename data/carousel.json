@@ -1,8 +1,6 @@
-[
-  {
-    "image": "/media/images/1000630004.jpg"
-  },
-  {
-    "image": "/media/images/1000646228.png"
-  }
-]
+{
+  "photos": [
+    "/media/images/1000630004.jpg",
+    "/media/images/1000646228.png"
+  ]
+}
