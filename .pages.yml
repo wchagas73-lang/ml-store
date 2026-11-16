@@ -162,18 +162,23 @@ content:
     type: file
     path: data/gallery.json
     format: json
-    list:
-      max: 10
     fields:
-      - name: title
-        label: Legenda da foto
-        type: string
-      - name: image
-        label: Foto
-        type: image
-        options:
-          media: images
-          path: media/images
+      - name: photos
+        label: Fotos da galeria (até 10)
+        type: object
+        list:
+          max: 10
+        fields:
+          - name: title
+            label: Legenda da foto
+            type: string
+            required: false
+          - name: image
+            label: Foto
+            type: image
+            options:
+              media: images
+              path: media/images
 
   - name: carousel
     label: COLEÇÃO DE DEZEMBRO: FOTOS ATUAIS E NOVAS (ATÉ 10)
@@ -192,6 +197,13 @@ content:
           multiple:
             max: 10
           unique: true
+      - name: captions
+        label: LEGENDAS OU PREÇOS DAS FOTOS (MESMA ORDEM, ATÉ 10)
+        description: Opcional. Cada legenda corresponde à foto na mesma posição. Deixe vazio quando não quiser texto.
+        type: string
+        list:
+          max: 10
+        required: false
 
   - name: interlude
     label: FOTOS EXTRAS ENTRE CHEGA JUNTO E UNIVERSO ML (ATÉ 10)
@@ -222,29 +234,16 @@ content:
     type: file
     path: data/ticker.json
     format: json
-    list:
-      max: 10
     fields:
-      - name: text
-        label: Frase da faixa deslizante
-        type: string
-
-  - name: highlights
-    label: Artes modernas de destaque
-    type: file
-    path: data/highlights.json
-    format: json
-    list: true
-    fields:
-      - name: kicker
-        label: Texto pequeno
-        type: string
-      - name: title
-        label: Título em destaque
-        type: string
-      - name: description
-        label: Descrição curta
-        type: text
+      - name: phrases
+        label: FRASES DA FAIXA DESLIZANTE (ATÉ 10)
+        type: object
+        list:
+          max: 10
+        fields:
+          - name: text
+            label: Frase da faixa deslizante
+            type: string
 
 settings:
   content:
