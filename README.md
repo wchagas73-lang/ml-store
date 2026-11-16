@@ -41,7 +41,7 @@ O Pages CMS é integrado ao GitHub. O proprietário precisa entrar com GitHub e 
 
 ## Observação sobre imagens
 
-Ao substituir uma imagem, prefira enviar o novo arquivo com um nome novo. Assim, a referência da imagem muda no arquivo JSON e o site identifica a atualização, evitando que o navegador reutilize uma versão antiga em cache.
+Ao substituir uma imagem, envie o novo arquivo com um nome diferente do anterior. Assim, a referência muda no JSON e a URL recebe uma nova versão, evitando que o navegador reutilize a foto antiga em cache. O site consulta o conteúdo a cada 10 segundos. Se o mesmo caminho e nome forem sobrescritos, o navegador ou a CDN pode manter a versão anterior em cache. Confirme a nova foto no site antes de apagar o arquivo antigo.
 
 ## Novos campos do CMS
 
