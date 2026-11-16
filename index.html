@@ -49,6 +49,57 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
 .street-strip-grid figcaption{position:absolute;z-index:2;bottom:12px;left:12px;right:12px;padding:10px 13px;background:linear-gradient(135deg,#d8ad53,#f3d58a);color:#090909;border:1px solid #fff0c0;font:900 clamp(1.25rem,3vw,2rem)/1 'Barlow Condensed';letter-spacing:.02em;text-align:center;text-shadow:none;box-shadow:0 5px 18px #0009;border-radius:3px}
 @media(max-width:760px){.street-strip{padding:0 0 48px}.street-strip-grid{gap:10px;scrollbar-width:thin;scrollbar-color:var(--gold) #222;padding:0 1px 12px}.street-strip-grid figure{flex-basis:78%;height:clamp(230px,65vw,320px);scroll-snap-align:none}}
 @media(prefers-reduced-motion:reduce){.street-strip-grid figure:after,.carousel-track figure:after{animation:none!important}}
+
+/* Fotos de produtos e colecoes: mostrar o arquivo inteiro, sem cortes */
+.street-strip-grid figure,
+.gallery figure,
+.carousel-track figure{
+  display:flex;
+  flex-direction:column;
+  justify-content:stretch;
+  height:330px;
+  background:#090909;
+}
+.street-strip-grid img,
+.gallery figure img,
+.carousel-track figure img{
+  display:block;
+  flex:1 1 auto;
+  width:100%;
+  height:0;
+  min-height:0;
+  object-fit:contain !important;
+  object-position:center center;
+  background:#090909;
+}
+.street-strip-grid figure:after,
+.gallery figure:after,
+.carousel-track figure:after{pointer-events:none}
+.street-strip-grid figcaption,
+.gallery figcaption,
+.carousel-track figcaption{
+  position:relative;
+  inset:auto;
+  flex:0 0 auto;
+  padding:10px 14px;
+  background:#111;
+  color:var(--cream);
+  border-top:1px solid #d8ad5355;
+  text-align:center;
+}
+.street-strip-grid figcaption{
+  margin:0;
+  border-radius:0;
+  box-shadow:none;
+  text-shadow:none;
+  font-size:1.2rem;
+}
+@media(max-width:760px){
+  .street-strip-grid figure{flex-basis:82%;height:clamp(260px,76vw,390px)}
+  .gallery figure{flex-basis:84%;height:clamp(270px,78vw,390px)}
+  .carousel-track figure{flex-basis:82%;height:clamp(280px,82vw,420px)}
+}
+
 </style>
 </head>
 <body>
