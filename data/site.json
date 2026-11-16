@@ -35,5 +35,7 @@
   "hero_kicker": "Melhores kit🔥",
   "ticker_text": "UM DIA VAI CHEGAR O DIA ",
   "carousel_phrase": "Coleção de dezembro. Vista sua atitude.",
-  "interlude_title": "Novidades da ML Store"
+  "interlude_title": "Novidades da ML Store",
+  "carousel_speed": "0.8",
+  "interlude_speed": "0.8"
 }
