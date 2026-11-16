@@ -311,7 +311,7 @@ async function loadSiteContent(){
       document.getElementById('carouselPrev')?.addEventListener('click',()=>move(-1),{signal:contentController.signal});
       document.getElementById('carouselNext')?.addEventListener('click',()=>move(1),{signal:contentController.signal});
       carouselTrack.addEventListener('pointerdown',()=>{marqueePaused=true;clearTimeout(carouselResumeTimer);},{passive:true,signal:contentController.signal});
-      ['pointerup','pointercancel','touchend'].forEach(event=>carouselTrack.addEventListener(event,resumeCarousel,{passive:true}));
+      ['pointerup','pointercancel','touchend'].forEach(event=>carouselTrack.addEventListener(event,resumeCarousel,{passive:true,signal:contentController.signal}));
       carouselTrack.addEventListener('mouseenter',()=>{marqueePaused=true;},{signal:contentController.signal});
       carouselTrack.addEventListener('mouseleave',()=>{marqueePaused=false;lastFrame=0;},{signal:contentController.signal});
       carouselTrack.addEventListener('focusin',()=>{marqueePaused=true;},{signal:contentController.signal});
@@ -371,7 +371,7 @@ async function loadSiteContent(){
         };
         streetFrame=requestAnimationFrame(animateStreet);
         streetGrid.addEventListener('pointerdown',()=>{paused=true;clearTimeout(streetResumeTimer);},{passive:true,signal:contentController.signal});
-        ['pointerup','pointercancel','touchend'].forEach(event=>streetGrid.addEventListener(event,resume,{passive:true}));
+        ['pointerup','pointercancel','touchend'].forEach(event=>streetGrid.addEventListener(event,resume,{passive:true,signal:contentController.signal}));
         streetGrid.addEventListener('mouseenter',()=>{paused=true;},{signal:contentController.signal});
         streetGrid.addEventListener('mouseleave',()=>{paused=false;last=0;},{signal:contentController.signal});
       }
@@ -415,7 +415,7 @@ async function loadSiteContent(){
         };
         galleryFrame=requestAnimationFrame(animateGallery);
         grid.addEventListener('pointerdown',()=>{paused=true;clearTimeout(resumeTimer);},{passive:true,signal:contentController.signal});
-        ['pointerup','pointercancel','touchend'].forEach(event=>grid.addEventListener(event,resume,{passive:true}));
+        ['pointerup','pointercancel','touchend'].forEach(event=>grid.addEventListener(event,resume,{passive:true,signal:contentController.signal}));
         grid.addEventListener('mouseenter',()=>{paused=true;},{signal:contentController.signal});
         grid.addEventListener('mouseleave',()=>{paused=false;last=0;},{signal:contentController.signal});
         grid.addEventListener('focusin',()=>{paused=true;},{signal:contentController.signal});
