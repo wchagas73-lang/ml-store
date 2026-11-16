@@ -1,20 +1,5 @@
-{
-  "photos": [
-    {
-      "image": "/media/images/1000857128.jpg",
-      "price": ""
-    },
-    {
-      "image": "/media/images/1000845727.png",
-      "price": ""
-    },
-    {
-      "image": "/media/images/1000856719.jpg",
-      "price": ""
-    },
-    {
-      "image": "/media/images/b9345a06-df3e-44c1-ba8c-c61dcb4f9bed-1all1842.jpg",
-      "price": ""
-    }
-  ]
-}
+[
+  {
+    "image": "/media/images/1000180487.jpg"
+  }
+]
