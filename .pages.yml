@@ -172,13 +172,14 @@ content:
           media: images
 
   - name: carousel
-    label: COLEÇÃO DE DEZEMBRO: SELECIONE ATÉ 10 FOTOS DE UMA VEZ
+    label: COLEÇÃO DE DEZEMBRO: FOTOS ATUAIS E NOVAS (ATÉ 10)
     type: file
     path: data/carousel.json
     format: json
     fields:
       - name: photos
-        label: SELECIONE OU ENVIE ATÉ 10 FOTOS JUNTAS
+        label: FOTOS DA COLEÇÃO: AS JÁ CADASTRADAS APARECEM AQUI
+        description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 10 fotos.
         type: image
         required: false
         options:
@@ -190,13 +191,14 @@ content:
           extensions: [jpg, jpeg, png, webp, avif]
 
   - name: interlude
-    label: FAIXA PRETA: SELECIONE ATÉ 4 FOTOS DE UMA VEZ
+    label: FAIXA PRETA: FOTOS ATUAIS E NOVAS (ATÉ 4)
     type: file
     path: data/interlude.json
     format: json
     fields:
       - name: photos
-        label: SELECIONE OU ENVIE ATÉ 4 FOTOS JUNTAS
+        label: FOTOS DA FAIXA: AS JÁ CADASTRADAS APARECEM AQUI
+        description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 4 fotos.
         type: image
         required: false
         options:
@@ -208,7 +210,7 @@ content:
           extensions: [jpg, jpeg, png, webp, avif]
 
   - name: reviews
-    label: DEPOIMENTOS DA ML STORE (EDITE OS EXEMPLOS)
+    label: DEPOIMENTOS: EDITE, ADICIONE OU EXCLUA MENSAGENS
     type: file
     path: data/reviews.json
     format: json
@@ -233,6 +235,7 @@ content:
           values: ["1", "2", "3", "4", "5"]
       - name: text
         label: Mensagem do depoimento
+        description: Edite o texto demonstrativo ou cadastre uma opinião real autorizada.
         type: text
       - name: avatar
         label: Foto de perfil (opcional, com autorização)
