@@ -158,12 +158,12 @@ content:
         type: text
 
   - name: gallery
-    label: Fotos da galeria
+    label: Fotos da galeria (até 10)
     type: file
     path: data/gallery.json
     format: json
     list:
-      max: 6
+      max: 10
     fields:
       - name: title
         label: Legenda da foto
@@ -194,17 +194,17 @@ content:
           unique: true
 
   - name: interlude
-    label: OFERTAS ML STORE: ATÉ 5 FOTOS COM PREÇO
+    label: FOTOS EXTRAS ENTRE CHEGA JUNTO E UNIVERSO ML (ATÉ 10)
     type: file
     path: data/interlude.json
     format: json
     fields:
       - name: photos
-        label: OFERTAS: ADICIONE ATÉ 5 PRODUTOS
-        description: Cada item aceita uma foto e um preço. Deixe o preço vazio se não quiser exibi-lo.
+        label: FOTOS EXTRAS: ADICIONE ATÉ 10 FOTOS
+        description: Adicione até 10 fotos. Se quiser, informe um preço em cada foto; deixe o campo vazio para não exibi-lo.
         type: object
         list:
-          max: 5
+          max: 10
         fields:
           - name: image
             label: Foto do produto
@@ -216,6 +216,18 @@ content:
             label: Preço promocional (ex.: 49,90)
             type: string
             required: false
+
+  - name: ticker
+    label: EDITAR FRASES DA FAIXA DESLIZANTE (ATÉ 10)
+    type: file
+    path: data/ticker.json
+    format: json
+    list:
+      max: 10
+    fields:
+      - name: text
+        label: Frase da faixa deslizante
+        type: string
 
   - name: highlights
     label: Artes modernas de destaque
