@@ -120,6 +120,28 @@ content:
       - name: interlude_title
         label: TÍTULO DA FAIXA PRETA APÓS DIVERSIFICANDO MODELOS
         type: string
+      - name: carousel_speed
+        label: VELOCIDADE DAS FOTOS DA COLEÇÃO
+        type: select
+        options:
+          values:
+            - name: "0.55"
+              label: Lenta
+            - name: "0.8"
+              label: Normal
+            - name: "1.05"
+              label: Rápida
+      - name: interlude_speed
+        label: VELOCIDADE DAS 4 FOTOS DA FAIXA PRETA
+        type: select
+        options:
+          values:
+            - name: "0.55"
+              label: Lenta
+            - name: "0.8"
+              label: Normal
+            - name: "1.05"
+              label: Rápida
       - name: contact_kicker
         label: Chamada do contato
         type: string
