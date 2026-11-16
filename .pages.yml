@@ -115,7 +115,10 @@ content:
         label: Descrição da galeria
         type: text
       - name: carousel_phrase
-        label: Frase de impacto da coleção (carrossel)
+        label: TÍTULO DA COLEÇÃO: EDITE O NOME DO MÊS E A FRASE
+        type: string
+      - name: interlude_title
+        label: TÍTULO DA FAIXA PRETA APÓS DIVERSIFICANDO MODELOS
         type: string
       - name: contact_kicker
         label: Chamada do contato
