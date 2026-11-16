@@ -166,6 +166,25 @@ content:
           path: media/images
           extensions: [jpg, jpeg, png, webp, avif]
 
+  - name: interlude
+    label: FOTOS EXTRAS ENTRE CHEGA JUNTO E UNIVERSO ML
+    type: file
+    path: data/interlude.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Legenda da foto (opcional)
+        type: string
+      - name: image
+        label: TOQUE AQUI PARA ESCOLHER OU ENVIAR UMA FOTO
+        type: image
+        description: Escolha uma foto da galeria do celular. Adicione até 10 fotos nesta faixa.
+        options:
+          media: images
+          path: media/images
+          extensions: [jpg, jpeg, png, webp, avif]
+
   - name: ticker
     label: EDITAR FRASES DA FAIXA DESLIZANTE
     type: file
