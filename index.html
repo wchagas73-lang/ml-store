@@ -183,7 +183,7 @@ async function loadSiteContent(){
     const carouselTrack=document.getElementById('carouselTrack');
     const carouselDots=document.getElementById('carouselDots');
     if(carouselTrack&&carouselDots){
-      const photos=carouselItems.filter(item=>item&&item.image).slice(0,10);
+      const photos=carouselItems.map(item=>typeof item==='string'?{image:item}:item).filter(item=>item&&item.image).slice(0,10);
       carouselTrack.replaceChildren();carouselDots.replaceChildren();
       photos.forEach((item,index)=>{
         const figure=document.createElement('figure'),photo=document.createElement('img'),caption=document.createElement('figcaption');
@@ -258,7 +258,7 @@ async function loadSiteContent(){
     }
     const streetGrid=document.getElementById('streetStripGrid');
     if(streetGrid){
-      const items=streetItems.filter(item=>item&&item.image).slice(0,4);
+      const items=streetItems.map(item=>typeof item==='string'?{image:item}:item).filter(item=>item&&item.image).slice(0,4);
       const fragment=document.createDocumentFragment();
       items.forEach(item=>{
         const figure=document.createElement('figure'),photo=document.createElement('img'),caption=document.createElement('figcaption');
