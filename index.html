@@ -155,7 +155,7 @@ async function loadSiteContent(){
     const [siteText,galleryText,carouselText,streetText]=await Promise.all([fetchContent('data/site.json'),fetchContent('data/gallery.json'),fetchContent('data/carousel.json'),fetchContent('data/interlude.json')]);
     const revision=revisionOf(siteText+'|'+galleryText+'|'+carouselText+'|'+streetText);
     if(revision===activeRevision)return;
-    const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselItems=JSON.parse(carouselText),streetItems=JSON.parse(streetText);
+    const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),carouselItems=Array.isArray(carouselData.photos)?carouselData.photos:[],streetItems=Array.isArray(streetData.photos)?streetData.photos:[];
     Object.keys(s).forEach(k=>setText(k,s[k]));
     setText('about_tag',s.about_tag??'');
     const brandName=document.getElementById('brandName');if(brandName&&s.brand_name)brandName.firstChild.textContent=s.brand_name;
@@ -183,7 +183,7 @@ async function loadSiteContent(){
     const carouselTrack=document.getElementById('carouselTrack');
     const carouselDots=document.getElementById('carouselDots');
     if(carouselTrack&&carouselDots){
-      const photos=Array.isArray(carouselItems)?carouselItems.filter(item=>item&&item.image).slice(0,10):[];
+      const photos=carouselItems.filter(item=>item&&item.image).slice(0,10);
       carouselTrack.replaceChildren();carouselDots.replaceChildren();
       photos.forEach((item,index)=>{
         const figure=document.createElement('figure'),photo=document.createElement('img'),caption=document.createElement('figcaption');
@@ -240,7 +240,7 @@ async function loadSiteContent(){
     }
     const streetGrid=document.getElementById('streetStripGrid');
     if(streetGrid){
-      const items=Array.isArray(streetItems)?streetItems.filter(item=>item&&item.image).slice(0,10):[];
+      const items=streetItems.filter(item=>item&&item.image).slice(0,4);
       const fragment=document.createDocumentFragment();
       items.forEach(item=>{
         const figure=document.createElement('figure'),photo=document.createElement('img'),caption=document.createElement('figcaption');
