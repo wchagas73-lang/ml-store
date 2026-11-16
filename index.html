@@ -155,7 +155,7 @@ async function loadSiteContent(){
     const [siteText,galleryText,carouselText,streetText]=await Promise.all([fetchContent('data/site.json'),fetchContent('data/gallery.json'),fetchContent('data/carousel.json'),fetchContent('data/interlude.json')]);
     const revision=revisionOf(siteText+'|'+galleryText+'|'+carouselText+'|'+streetText);
     if(revision===activeRevision)return;
-    const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),carouselItems=Array.isArray(carouselData.photos)?carouselData.photos:[],streetItems=Array.isArray(streetData.photos)?streetData.photos:[];
+    const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),carouselItems=(Array.isArray(carouselData)?carouselData:Array.isArray(carouselData.photos)?carouselData.photos:[]),streetItems=(Array.isArray(streetData)?streetData:Array.isArray(streetData.photos)?streetData.photos:[]);
     Object.keys(s).forEach(k=>setText(k,s[k]));
     setText('about_tag',s.about_tag??'');
     const brandName=document.getElementById('brandName');if(brandName&&s.brand_name)brandName.firstChild.textContent=s.brand_name;
