@@ -188,7 +188,9 @@ const rawMediaUrl=(path,revision='')=>{
 };
 const setImage=(id,path,revision)=>{
   const el=document.getElementById(id),url=rawMediaUrl(path,revision);
-  if(el&&url)el.src=url;
+  if(!el)return;
+  if(url){el.src=url;el.hidden=false;}
+  else{el.removeAttribute('src');el.hidden=true;}
 };
 const revisionOf=(value)=>{
   let hash=2166136261;
@@ -209,7 +211,8 @@ const setLinks=site=>{
   });
 };
 const setRichTitle=(id,value,mode)=>{
-  const el=document.getElementById(id);if(!el||!value)return;
+  const el=document.getElementById(id);if(!el)return;
+  if(value===null||value===undefined||String(value).trim()===''){el.replaceChildren();return;}
   const words=String(value).trim().split(/\s+/);el.replaceChildren();
   if(mode==='about'&&words.length>2){
     el.append(document.createTextNode(words.slice(0,2).join(' ')+' '),document.createElement('br'));
@@ -238,15 +241,18 @@ async function loadSiteContent(){
     clearTimeout(carouselResumeTimer);carouselResumeTimer=null;
     clearTimeout(streetResumeTimer);streetResumeTimer=null;
     const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),tickerData=JSON.parse(tickerText),galleryItems=(Array.isArray(g)?g:Array.isArray(g.photos)?g.photos:[]),tickerItems=(Array.isArray(tickerData)?tickerData:Array.isArray(tickerData.phrases)?tickerData.phrases:[]),carouselItems=(Array.isArray(carouselData)?carouselData:Array.isArray(carouselData.photos)?carouselData.photos:[]),carouselCaptions=Array.isArray(carouselData.captions)?carouselData.captions:[],streetItems=(Array.isArray(streetData)?streetData:Array.isArray(streetData.photos)?streetData.photos:[]);
-    Object.keys(s).forEach(k=>setText(k,s[k]));
+    document.querySelectorAll('[data-cms]').forEach(el=>{
+      const key=el.getAttribute('data-cms');
+      setText(key,Object.prototype.hasOwnProperty.call(s,key)?s[key]:'');
+    });
     setText('about_tag',s.about_tag??'');
-    const brandName=document.getElementById('brandName');if(brandName&&s.brand_name)brandName.firstChild.textContent=s.brand_name;
+    const brandName=document.getElementById('brandName');if(brandName)brandName.firstChild.textContent=String(s.brand_name??'');
     const hero=document.querySelector('.hero'),heroImage=rawMediaUrl(s.hero_image,revision);
-    if(hero&&heroImage)hero.style.backgroundImage='linear-gradient(90deg,#050505 0%,#050505e8 37%,#05050555 72%,#05050550),url("'+heroImage+'")';
+    if(hero)hero.style.backgroundImage=heroImage?'linear-gradient(90deg,#050505 0%,#050505e8 37%,#05050555 72%,#05050550),url("'+heroImage+'")':'linear-gradient(90deg,#050505 0%,#050505 100%)';
     if(hero&&s.hero_position)hero.style.backgroundPosition=s.hero_position;
     const h1=document.getElementById('heroLine1'),h2=document.getElementById('heroLine2');
-    if(h1&&s.hero_line1)h1.textContent=s.hero_line1;
-    if(h2&&s.hero_line2)h2.textContent=s.hero_line2;
+    if(h1)h1.textContent=String(s.hero_line1??'');
+    if(h2)h2.textContent=String(s.hero_line2??'');
     setRichTitle('aboutTitle',s.about_title,'about');
     setRichTitle('manifestoTitle',s.manifesto_title);
     setText('manifesto_text',s.manifesto_text??'');
@@ -259,7 +265,7 @@ async function loadSiteContent(){
     const aboutImage=document.getElementById('aboutImage');
     if(aboutImage&&s.about_position)aboutImage.style.objectPosition=s.about_position;
     const manifesto=document.querySelector('.manifesto'),manifestoImage=rawMediaUrl(s.manifesto_image,revision);
-    if(manifesto&&manifestoImage)manifesto.style.backgroundImage='url("'+manifestoImage+'")';
+    if(manifesto)manifesto.style.backgroundImage=manifestoImage?'url("'+manifestoImage+'")':'none';
     if(manifesto&&s.manifesto_position)manifesto.style.backgroundPosition=s.manifesto_position;
     setImage('aboutImage',s.about_image,revision);
     // Carrossel contínuo: duplicação das fotos evita salto no reinício e mantém o toque livre.
@@ -337,10 +343,14 @@ async function loadSiteContent(){
       }else tickerSection.hidden=true;
     }
     const logoUrl=rawMediaUrl(s.logo_image,revision);
-    if(logoUrl){
-      const logo=document.createElement('img');logo.src=logoUrl;logo.alt='Logo '+(s.brand_name||'ML Store');
-      logo.style.cssText='width:100%;height:100%;object-fit:contain';
-      document.getElementById('brandLogo').replaceChildren(logo);
+    const logoContainer=document.getElementById('brandLogo');
+    if(logoContainer){
+      logoContainer.replaceChildren();
+      if(logoUrl){
+        const logo=document.createElement('img');logo.src=logoUrl;logo.alt='Logo '+(s.brand_name||'ML Store');
+        logo.style.cssText='width:100%;height:100%;object-fit:contain';
+        logoContainer.append(logo);
+      }
     }
     const streetGrid=document.getElementById('streetStripGrid');
     if(streetGrid){
@@ -436,7 +446,7 @@ document.getElementById('galleryPrev')?.addEventListener('click',()=>document.ge
 document.getElementById('galleryNext')?.addEventListener('click',()=>document.getElementById('galleryGrid')?.scrollBy({left:320,behavior:'smooth'}));
 
 loadSiteContent();
-setInterval(loadSiteContent,10000);
+setInterval(loadSiteContent,5000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadSiteContent()});
 </script>
 </body></html>
