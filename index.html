@@ -50,65 +50,87 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
 @media(max-width:760px){.street-strip{padding:0 0 48px}.street-strip-grid{gap:10px;scrollbar-width:thin;scrollbar-color:var(--gold) #222;padding:0 1px 12px}.street-strip-grid figure{flex-basis:78%;height:clamp(230px,65vw,320px);scroll-snap-align:none}}
 @media(prefers-reduced-motion:reduce){.street-strip-grid figure:after,.carousel-track figure:after{animation:none!important}}
 
-/* Fotos de produtos e colecoes: preservar proporcao original sem faixas vazias */
+/* Quadros padronizados: foto original inteira + preenchimento desfocado nas sobras */
 .street-strip-grid,
 .gallery,
 .carousel-track{align-items:flex-start}
 .street-strip-grid figure,
 .gallery figure,
 .carousel-track figure{
-  display:flex;
+  position:relative;
+  display:block;
   flex:0 0 32%;
-  flex-direction:column;
-  align-self:flex-start;
-  height:auto !important;
-  min-height:0;
+  height:330px !important;
+  min-height:330px;
   overflow:hidden;
-  background:transparent;
+  isolation:isolate;
+  background-color:#111;
+  background-position:center;
+  background-size:cover;
   border:0;
 }
-.street-strip-grid img,
+.street-strip-grid figure:before,
+.gallery figure:before,
+.carousel-track figure:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-14px;
+  background-image:inherit;
+  background-position:center;
+  background-size:cover;
+  filter:blur(15px) brightness(.58);
+  transform:scale(1.06);
+}
+.street-strip-grid figure img,
 .gallery figure img,
 .carousel-track figure img{
+  position:absolute;
+  z-index:1;
+  inset:0;
   display:block;
-  flex:none;
   width:100%;
-  height:auto !important;
-  min-height:0;
+  height:100% !important;
   max-height:none;
-  object-fit:initial !important;
-  object-position:center;
+  object-fit:contain !important;
+  object-position:center center;
   background:transparent;
   transform:none !important;
   filter:none !important;
 }
 .street-strip-grid figure:after,
 .gallery figure:after,
-.carousel-track figure:after{pointer-events:none}
+.carousel-track figure:after{z-index:2;pointer-events:none}
 .street-strip-grid figcaption,
 .gallery figcaption,
 .carousel-track figcaption{
-  position:relative;
-  inset:auto;
-  flex:0 0 auto;
+  position:absolute !important;
+  z-index:3;
+  inset:auto 0 0 !important;
   width:100%;
-  padding:10px 12px;
-  background:#111;
-  color:var(--cream);
+  padding:12px 14px;
+  background:linear-gradient(transparent,#000d 35%);
+  color:#fff;
   border:0;
   text-align:center;
+  text-shadow:0 1px 5px #000;
 }
 .street-strip-grid figcaption{
   margin:0;
   border-radius:0;
   box-shadow:none;
-  text-shadow:none;
-  font-size:1.2rem;
+  font-size:1.25rem;
+  color:#f3d58a;
+  font-weight:900;
 }
 @media(max-width:760px){
-  .street-strip-grid figure{flex-basis:82%}
-  .gallery figure{flex-basis:84%}
-  .carousel-track figure{flex-basis:82%}
+  .street-strip-grid figure,
+  .gallery figure,
+  .carousel-track figure{
+    flex-basis:82%;
+    height:clamp(270px,76vw,360px) !important;
+    min-height:clamp(270px,76vw,360px);
+  }
 }
 
 </style>
@@ -251,7 +273,7 @@ async function loadSiteContent(){
       carouselTrack.replaceChildren();carouselDots.replaceChildren();
       photos.forEach((item,index)=>{
         const figure=document.createElement('figure'),photo=document.createElement('img'),caption=document.createElement('figcaption');
-        photo.src=rawMediaUrl(item.image,revision);photo.alt=item.title||'Foto da ML Store';
+        photo.src=rawMediaUrl(item.image,revision);figure.style.backgroundImage='url("'+photo.src.replace(/"/g,'%22')+'")';photo.alt=item.title||'Foto da ML Store';
         photo.loading=index<2?'eager':'lazy';photo.decoding='async';
         caption.textContent=item.title||'ML Store';figure.append(photo,caption);carouselTrack.append(figure);
         const dot=document.createElement('button');dot.type='button';dot.setAttribute('aria-label','Mostrar foto '+(index+1));
@@ -365,7 +387,7 @@ async function loadSiteContent(){
       const fragment=document.createDocumentFragment();
       items.forEach(item=>{
         const figure=document.createElement('figure'),visual=document.createElement('img'),caption=document.createElement('figcaption');
-        visual.loading='lazy';visual.decoding='async';visual.src=rawMediaUrl(item.image,revision);
+        visual.loading='lazy';visual.decoding='async';visual.src=rawMediaUrl(item.image,revision);figure.style.backgroundImage='url("'+visual.src.replace(/"/g,'%22')+'")';
         visual.alt=item.title||'Imagem da '+(s.brand_name||'ML Store');
         caption.textContent=item.title||s.brand_name||'ML Store';
         figure.append(visual,caption);fragment.append(figure);
