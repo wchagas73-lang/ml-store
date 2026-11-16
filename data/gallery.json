@@ -1,24 +1,26 @@
-[
-  {
-    "title": "Identidade ML Store",
-    "image": "/media/images/1000858740.jpg"
-  },
-  {
-    "title": "Estilo e atitude",
-    "image": "/media/images/1000858743.jpg"
-  },
-  {
-    "title": "Nossa essência",
-    "image": "/media/images/1000858752.jpg"
-  },
-  {
-    "title": "Cultura urbana",
-    "image": "/media/images/1000858745.jpg"
-  },
-  {
-    "image": "/media/images/1000858751.jpg"
-  },
-  {
-    "image": "/media/images/1000858742.jpg"
-  }
-]
+{
+  "photos": [
+    {
+      "title": "Identidade ML Store",
+      "image": "/media/images/1000858740.jpg"
+    },
+    {
+      "title": "Estilo e atitude",
+      "image": "/media/images/1000858743.jpg"
+    },
+    {
+      "title": "Nossa essência",
+      "image": "/media/images/1000858752.jpg"
+    },
+    {
+      "title": "Cultura urbana",
+      "image": "/media/images/1000858745.jpg"
+    },
+    {
+      "image": "/media/images/1000858751.jpg"
+    },
+    {
+      "image": "/media/images/1000858742.jpg"
+    }
+  ]
+}
