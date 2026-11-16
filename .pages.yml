@@ -188,20 +188,26 @@ content:
             max: 10
 
   - name: interlude
-    label: FAIXA PRETA: FOTOS ATUAIS E NOVAS (ATÉ 4)
+    label: OFERTAS ML STORE: ATÉ 6 FOTOS COM PREÇO
     type: file
     path: data/interlude.json
     format: json
     fields:
       - name: photos
-        label: FOTOS DA FAIXA: AS JÁ CADASTRADAS APARECEM AQUI
-        description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 4 fotos.
-        type: image
-        required: false
-        options:
-          media: images
-          multiple:
-            max: 4
+        label: OFERTAS: ADICIONE ATÉ 6 PRODUTOS
+        description: Cada item aceita uma foto e um preço. Deixe o preço vazio se não quiser exibi-lo.
+        type: object
+        list: true
+        fields:
+          - name: image
+            label: Foto do produto
+            type: image
+            options:
+              media: images
+          - name: price
+            label: Preço promocional (ex.: 49,90)
+            type: string
+            required: false
 
   - name: reviews
     label: COMENTÁRIOS: EDITE SOMENTE O TEXTO DAS MENSAGENS
