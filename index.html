@@ -80,7 +80,8 @@ links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.clas
 const CONTENT_BASE='https://raw.githubusercontent.com/wchagas73-lang/ml-store/main/';
 let activeRevision='';
 let refreshInProgress=false;
-let reviewsFrame=0;\nlet galleryFrame=0;
+let reviewsFrame=0;
+let galleryFrame=0;
 
 const setText=(key,value)=>{
   const el=document.querySelector('[data-cms="'+key+'"]');
