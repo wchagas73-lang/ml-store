@@ -147,58 +147,44 @@ content:
           media: images
 
   - name: carousel
-    label: COLEÇÃO DE DEZEMBRO: ATÉ 10 FOTOS
+    label: COLEÇÃO DE DEZEMBRO: ESCOLHER ATÉ 10 FOTOS NOVAS
     type: file
     path: data/carousel.json
     format: json
+    list:
+      max: 10
     fields:
-      - name: photos
-        label: Fotos da coleção (máximo 10)
-        type: object
-        list:
-          max: 10
-          collapsible:
-            collapsed: true
-            summary: "Foto {index}: {title}"
-        fields:
-          - name: title
-            label: Legenda da foto (opcional)
-            type: string
-          - name: image
-            label: ESCOLHER OU ENVIAR FOTO DO CELULAR
-            type: image
-            required: true
-            options:
-              media: images
-              path: media/images
-              extensions: [jpg, jpeg, png, webp, avif]
+      - name: title
+        label: Legenda da foto (opcional)
+        type: string
+      - name: image
+        label: TOQUE AQUI PARA ESCOLHER FOTO DA GALERIA OU ENVIAR DO CELULAR
+        type: image
+        required: true
+        options:
+          media: images
+          path: media/images
+          extensions: [jpg, jpeg, png, webp, avif]
 
   - name: interlude
-    label: FOTOS EXTRAS ENTRE CHEGA JUNTO E UNIVERSO ML: ATÉ 4
+    label: FOTOS NOVAS NA FAIXA PRETA APÓS DIVERSIFICANDO MODELOS: ATÉ 4
     type: file
     path: data/interlude.json
     format: json
+    list:
+      max: 4
     fields:
-      - name: photos
-        label: Fotos novas desta faixa (máximo 4)
-        type: object
-        list:
-          max: 4
-          collapsible:
-            collapsed: true
-            summary: "Foto {index}: {title}"
-        fields:
-          - name: title
-            label: Legenda da foto (opcional)
-            type: string
-          - name: image
-            label: ESCOLHER OU ENVIAR FOTO NOVA DO CELULAR
-            type: image
-            required: true
-            options:
-              media: images
-              path: media/images
-              extensions: [jpg, jpeg, png, webp, avif]
+      - name: title
+        label: Legenda da foto (opcional)
+        type: string
+      - name: image
+        label: TOQUE AQUI PARA ESCOLHER FOTO NOVA DO CELULAR
+        type: image
+        required: true
+        options:
+          media: images
+          path: media/images
+          extensions: [jpg, jpeg, png, webp, avif]
 
   - name: ticker
     label: EDITAR FRASES DA FAIXA DESLIZANTE
