@@ -218,7 +218,7 @@ async function loadSiteContent(){
         if(!marqueeFrame)return;
         if(!marqueePaused&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&photos.length>1){
           if(lastFrame){const elapsed=Math.min(40,timestamp-lastFrame);carouselTrack.scrollLeft+=speed*(elapsed/16.67);}
-          const loopWidth=carouselTrack.scrollWidth/2;
+          const loopWidth=carouselTrack.children[photos.length]?.offsetLeft||0;
           if(loopWidth>0&&carouselTrack.scrollLeft>=loopWidth)carouselTrack.scrollLeft-=loopWidth;
         }
         lastFrame=timestamp;
@@ -274,7 +274,7 @@ async function loadSiteContent(){
         const animateStreet=timestamp=>{
           if(!paused){
             if(last){const elapsed=Math.min(40,timestamp-last);streetGrid.scrollLeft+=speed*(elapsed/16.67);}
-            const loopWidth=streetGrid.scrollWidth/2;
+            const loopWidth=streetGrid.children[items.length]?.offsetLeft||0;
             if(loopWidth>0&&streetGrid.scrollLeft>=loopWidth)streetGrid.scrollLeft-=loopWidth;
           }
           last=timestamp;requestAnimationFrame(animateStreet);
