@@ -69,13 +69,13 @@ for data_file in sorted(Path("data").glob("*.json")):
     original_text = data_file.read_text(encoding="utf-8")
     data = json.loads(original_text)
     updated = walk(data)
-    rendered = json.dumps(updated, ensure_ascii=False, indent=2) + "\\n"
+    rendered = json.dumps(updated, ensure_ascii=False, indent=2) + chr(10)
     if rendered != original_text:
         data_file.write_text(rendered, encoding="utf-8")
         print(f"Referencias atualizadas: {data_file}")
 
 if missing:
-    details = "\\n".join(f"{source} -> {target}" for source, target in missing)
-    raise SystemExit("Originais JPG nao encontrados para:\\n" + details)
+    details = chr(10).join(f"{source} -> {target}" for source, target in missing)
+    raise SystemExit("Originais JPG nao encontrados para:" + chr(10) + details)
 
 print(f"Conversao concluida. Novos JPGs: {len(converted)}")
