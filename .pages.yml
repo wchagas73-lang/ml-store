@@ -182,12 +182,11 @@ content:
         description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 10 fotos.
         type: image
         required: false
+        list:
+          max: 10
         options:
           media: images
           path: media/images
-          multiple:
-            max: 10
-          unique: true
           extensions: [jpg, jpeg, png, webp, avif]
 
   - name: interlude
@@ -201,12 +200,11 @@ content:
         description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 4 fotos.
         type: image
         required: false
+        list:
+          max: 4
         options:
           media: images
           path: media/images
-          multiple:
-            max: 4
-          unique: true
           extensions: [jpg, jpeg, png, webp, avif]
 
   - name: reviews
