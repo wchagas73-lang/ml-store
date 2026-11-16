@@ -228,8 +228,8 @@ async function loadSiteContent(){
   if(refreshInProgress)return;
   refreshInProgress=true;
   try{
-    const [siteText,galleryText,carouselText,streetText]=await Promise.all([fetchContent('data/site.json'),fetchContent('data/gallery.json'),fetchContent('data/carousel.json'),fetchContent('data/interlude.json')]);
-    const revision=revisionOf(siteText+'|'+galleryText+'|'+carouselText+'|'+streetText);
+    const [siteText,galleryText,carouselText,streetText,tickerText]=await Promise.all([fetchContent('data/site.json'),fetchContent('data/gallery.json'),fetchContent('data/carousel.json'),fetchContent('data/interlude.json'),fetchContent('data/ticker.json')]);
+    const revision=revisionOf(siteText+'|'+galleryText+'|'+carouselText+'|'+streetText+'|'+tickerText);
     if(revision===activeRevision)return;
     contentController?.abort();contentController=new AbortController();
     cancelAnimationFrame(carouselFrame);carouselFrame=0;
@@ -237,7 +237,7 @@ async function loadSiteContent(){
     if(galleryFrame)cancelAnimationFrame(galleryFrame);galleryFrame=0;
     clearTimeout(carouselResumeTimer);carouselResumeTimer=null;
     clearTimeout(streetResumeTimer);streetResumeTimer=null;
-    const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),carouselItems=(Array.isArray(carouselData)?carouselData:Array.isArray(carouselData.photos)?carouselData.photos:[]),streetItems=(Array.isArray(streetData)?streetData:Array.isArray(streetData.photos)?streetData.photos:[]);
+    const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),tickerData=JSON.parse(tickerText),tickerItems=(Array.isArray(tickerData)?tickerData:Array.isArray(tickerData.phrases)?tickerData.phrases:[]),carouselItems=(Array.isArray(carouselData)?carouselData:Array.isArray(carouselData.photos)?carouselData.photos:[]),streetItems=(Array.isArray(streetData)?streetData:Array.isArray(streetData.photos)?streetData.photos:[]);
     Object.keys(s).forEach(k=>setText(k,s[k]));
     setText('about_tag',s.about_tag??'');
     const brandName=document.getElementById('brandName');if(brandName&&s.brand_name)brandName.firstChild.textContent=s.brand_name;
@@ -320,13 +320,16 @@ async function loadSiteContent(){
     }
     const tickerTrack=document.getElementById('tickerTrack'),tickerSection=document.getElementById('tickerSection');
     if(tickerTrack&&tickerSection){
-      const phrase=String(s.ticker_text||'').trim();
+      const phrases=tickerItems.map(item=>typeof item==='string'?item:item?.text||'').map(value=>String(value).trim()).filter(Boolean).slice(0,10);
+      if(!phrases.length&&String(s.ticker_text||'').trim())phrases.push(String(s.ticker_text).trim());
       tickerTrack.replaceChildren();
-      if(phrase){
+      if(phrases.length){
         for(let copy=0;copy<2;copy++){
           const group=document.createElement('div');group.className='ticker-group';if(copy)group.setAttribute('aria-hidden','true');
-          const word=document.createElement('span');word.textContent=phrase;group.append(word);
-          const star=document.createElement('b');star.className='ticker-star';star.textContent='✦';group.append(star);
+          phrases.forEach(phrase=>{
+            const word=document.createElement('span');word.textContent=phrase;group.append(word);
+            const star=document.createElement('b');star.className='ticker-star';star.textContent='✦';group.append(star);
+          });
           tickerTrack.append(group);
         }
         tickerSection.hidden=false;
@@ -340,7 +343,7 @@ async function loadSiteContent(){
     }
     const streetGrid=document.getElementById('streetStripGrid');
     if(streetGrid){
-      const items=streetItems.map(item=>typeof item==='string'?{image:item,price:''}:item).filter(item=>item&&item.image).slice(0,5);
+      const items=streetItems.map(item=>typeof item==='string'?{image:item,price:''}:item).filter(item=>item&&item.image).slice(0,10);
       const fragment=document.createDocumentFragment();
       items.forEach(item=>{
         const figure=document.createElement('figure'),photo=document.createElement('img');
