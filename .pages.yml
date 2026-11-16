@@ -147,7 +147,7 @@ content:
           media: images
 
   - name: carousel
-    label: Carrossel automático de fotos (até 10 imagens)
+    label: ADICIONAR FOTOS AO CARROSSEL (ATÉ 10)
     type: file
     path: data/carousel.json
     format: json
@@ -156,11 +156,15 @@ content:
       - name: title
         label: Legenda da foto (opcional)
         type: string
+        description: Escreva uma legenda curta ou deixe em branco.
       - name: image
-        label: Selecione a foto
+        label: TOQUE AQUI PARA ESCOLHER OU ENVIAR UMA FOTO DO CELULAR
         type: image
+        description: Abra o seletor de arquivos do celular ou escolha uma imagem já enviada. Cada item desta lista representa uma foto do carrossel. Adicione até 10 itens.
         options:
           media: images
+          path: media/images
+          extensions: [jpg, jpeg, png, webp, avif]
 
   - name: ticker
     label: EDITAR FRASES DA FAIXA DESLIZANTE
