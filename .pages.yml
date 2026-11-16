@@ -198,7 +198,7 @@ content:
           unique: true
 
   - name: interlude
-    label: OFERTAS ML STORE: ATÉ 6 FOTOS COM PREÇO
+    label: OFERTAS ML STORE: ATÉ 4 FOTOS COM PREÇO
     type: file
     path: data/interlude.json
     format: json
