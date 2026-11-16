@@ -8,7 +8,7 @@
 <title>Painel administrativo | ML Store</title>
 <style>
 :root{color-scheme:dark;--bg:#090909;--panel:#151515;--gold:#d8ad53;--text:#f4efe5;--muted:#aaa397;--line:#302d27}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}.wrap{width:min(680px,calc(100% - 32px));margin:8vh auto}.brand{font-weight:900;letter-spacing:.14em}.brand span{color:var(--gold)}h1{font-size:clamp(2.4rem,8vw,4rem);line-height:1;margin:38px 0 16px;text-transform:uppercase}p{color:var(--muted);line-height:1.7}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:25px;margin:24px 0}.steps{padding-left:22px;color:var(--muted);line-height:1.9}.steps strong{color:var(--text)}.button{display:inline-block;background:var(--gold);color:#111;text-decoration:none;font-weight:850;padding:15px 20px;border-radius:6px;margin:10px 0}.secondary{color:var(--gold)}small{color:var(--muted);line-height:1.6;display:block;margin-top:15px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}.wrap{width:min(680px,calc(100% - 32px));margin:8vh auto}.brand{font-weight:900;letter-spacing:.14em}.brand span{color:var(--gold)}h1{font-size:clamp(2.4rem,8vw,4rem);line-height:1;margin:38px 0 16px;text-transform:uppercase}p{color:var(--muted);line-height:1.7}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:25px;margin:24px 0}.steps{padding-left:22px;color:var(--muted);line-height:1.9}.steps strong{color:var(--text)}.button{display:inline-block;background:var(--gold);color:#111;text-decoration:none;font-weight:850;padding:15px 20px;border-radius:6px;margin:10px 0}.secondary{color:var(--gold)}.quick-actions{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 14px}.quick-actions .button{margin:0}.secondary-button{background:transparent;border:1px solid var(--gold);color:var(--gold)}small{color:var(--muted);line-height:1.6;display:block;margin-top:15px}
 </style>
 </head>
 <body>
@@ -18,7 +18,11 @@
 <p>O Pages CMS está conectado ao GitHub. Use o editor para alterar textos, trocar fotos e organizar as artes do site. A coleção de dezembro, as frases da faixa deslizante e as fotos extras são áreas separadas. O site consulta os arquivos do GitHub automaticamente, sem depender de uma nova publicação do Cloudflare Pages para cada alteração de conteúdo.</p>
 <section class="panel">
 <h2>Acessar editor</h2>
-<a class="button" href="https://app.pagescms.org/" target="_blank" rel="noopener">Abrir painel de edição ↗</a>
+<a class="button" href="https://app.pagescms.org/" target="_blank" rel="noopener">✎ Abrir painel de edição ↗</a>
+<div class="quick-actions" aria-label="Atalhos do site">
+<a class="button secondary-button" href="https://ml-store-emt.pages.dev/" target="_blank" rel="noopener">↗ Ver site oficial</a>
+<a class="button secondary-button" href="https://ml-store-emt.pages.dev/?atualizar=1" target="_blank" rel="noopener">⟳ Atualizar e abrir site</a>
+</div>
 <ol class="steps">
 <li>Abra o Pages CMS com a conta GitHub que já está conectada.</li>
 <li>Abra o repositório <strong>wchagas73-lang/ml-store</strong> na branch <strong>main</strong>.</li>
@@ -34,7 +38,7 @@
 </section>
 <p><strong>Troca de fotos:</strong> para substituir uma imagem, envie a nova foto com um nome de arquivo diferente do anterior. Exemplo: <strong>produto-01-novembro-2026.jpg</strong>. Isso evita que o navegador reutilize a foto antiga pelo cache. Depois que o Pages CMS concluir o salvamento no GitHub, o site verifica as alterações automaticamente a cada 5 segundos. A atualização pode levar um pouco mais se o GitHub ainda estiver processando o arquivo ou a imagem. Se a foto continuar antiga, atualize a página; não apague os arquivos antigos antes de confirmar que a nova imagem aparece corretamente.</p>
 <p><strong>Limites atuais:</strong> galeria, coleção de dezembro, fotos extras e faixa deslizante aceitam até 10 itens cada. Nas fotos extras, o preço é opcional. As fotos passam continuamente na horizontal, e o visitante também pode arrastar com o dedo. Para ajustar a velocidade, abra <strong>Conteúdo e identidade do site</strong> e escolha Lenta, Normal ou Rápida nos campos de velocidade.</p>
-<p><a class="secondary" href="/" >← Voltar ao site público</a></p>
+<p><a class="secondary" href="https://ml-store-emt.pages.dev/" target="_blank" rel="noopener">↗ Abrir site oficial em nova aba</a></p>
 <small>O acesso é controlado pela conta GitHub autorizada no repositório. Não compartilhe sua senha ou códigos de acesso.</small>
 </main>
 </body>
