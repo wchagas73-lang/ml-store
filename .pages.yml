@@ -182,12 +182,10 @@ content:
         description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 10 fotos.
         type: image
         required: false
-        list:
-          max: 10
         options:
           media: images
-          path: media/images
-          extensions: [jpg, jpeg, png, webp, avif]
+          multiple:
+            max: 10
 
   - name: interlude
     label: FAIXA PRETA: FOTOS ATUAIS E NOVAS (ATÉ 4)
@@ -200,12 +198,10 @@ content:
         description: Confira as fotos atuais, remova as que não quiser e adicione novas. Limite de 4 fotos.
         type: image
         required: false
-        list:
-          max: 4
         options:
           media: images
-          path: media/images
-          extensions: [jpg, jpeg, png, webp, avif]
+          multiple:
+            max: 4
 
   - name: reviews
     label: COMENTÁRIOS: EDITE SOMENTE O TEXTO DAS MENSAGENS
