@@ -125,22 +125,22 @@ content:
         type: select
         options:
           values:
-            - name: "0.55"
+            - name: "0.9"
               label: Lenta
-            - name: "0.8"
+            - name: "1.1"
               label: Normal
-            - name: "1.05"
+            - name: "1.4"
               label: Rápida
       - name: interlude_speed
         label: VELOCIDADE DAS 4 FOTOS DA FAIXA PRETA
         type: select
         options:
           values:
-            - name: "0.55"
+            - name: "0.9"
               label: Lenta
-            - name: "0.8"
+            - name: "1.1"
               label: Normal
-            - name: "1.05"
+            - name: "1.4"
               label: Rápida
       - name: contact_kicker
         label: Chamada do contato
@@ -172,41 +172,39 @@ content:
           media: images
 
   - name: carousel
-    label: COLEÇÃO DE DEZEMBRO: ESCOLHER ATÉ 10 FOTOS NOVAS
+    label: COLEÇÃO DE DEZEMBRO: SELECIONE ATÉ 10 FOTOS DE UMA VEZ
     type: file
     path: data/carousel.json
     format: json
-    list: true
     fields:
-      - name: title
-        label: Legenda da foto (opcional)
-        type: string
-      - name: image
-        label: TOQUE AQUI PARA ESCOLHER FOTO DA GALERIA OU ENVIAR DO CELULAR
+      - name: photos
+        label: SELECIONE OU ENVIE ATÉ 10 FOTOS JUNTAS
         type: image
-        required: true
+        required: false
         options:
           media: images
           path: media/images
+          multiple:
+            max: 10
+          unique: true
           extensions: [jpg, jpeg, png, webp, avif]
 
   - name: interlude
-    label: FOTOS NOVAS NA FAIXA PRETA APÓS DIVERSIFICANDO MODELOS: ATÉ 4
+    label: FAIXA PRETA: SELECIONE ATÉ 4 FOTOS DE UMA VEZ
     type: file
     path: data/interlude.json
     format: json
-    list: true
     fields:
-      - name: title
-        label: Legenda da foto (opcional)
-        type: string
-      - name: image
-        label: TOQUE AQUI PARA ESCOLHER FOTO NOVA DO CELULAR
+      - name: photos
+        label: SELECIONE OU ENVIE ATÉ 4 FOTOS JUNTAS
         type: image
-        required: true
+        required: false
         options:
           media: images
           path: media/images
+          multiple:
+            max: 4
+          unique: true
           extensions: [jpg, jpeg, png, webp, avif]
 
   - name: ticker
