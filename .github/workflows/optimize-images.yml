@@ -1,0 +1,53 @@
+name: Otimizar imagens para WebP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "media/images/**"
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Payload opcional enviado pelo Pages CMS
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: optimize-images-main
+  cancel-in-progress: false
+
+jobs:
+  optimize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar conversor
+        run: python -m pip install --upgrade Pillow
+
+      - name: Converter imagens e atualizar referências
+        run: python scripts/optimize_images.py
+
+      - name: Salvar versões WebP no GitHub
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add media/images media/originals data/*.json
+          if ! git diff --cached --quiet; then
+            git commit -m "perf: convert store images to WebP at 88 quality"
+            git push
+          else
+            echo "Nenhuma imagem nova para converter."
+          fi
