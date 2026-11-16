@@ -7,10 +7,6 @@ media:
     rename: safe
     extensions: [jpg, jpeg, png, webp, avif]
     categories: [image]
-    actions:
-      - name: optimize-images
-        label: Otimizar fotos para WebP
-        workflow: optimize-images.yml
 content:
   - name: site
     label: Conteúdo e identidade do site
@@ -138,7 +134,7 @@ content:
             - name: "1.4"
               label: Rápida
       - name: interlude_speed
-        label: VELOCIDADE DAS 4 FOTOS DA FAIXA PRETA
+        label: VELOCIDADE DAS 5 FOTOS DA FAIXA PRETA
         type: select
         options:
           values:
@@ -198,17 +194,17 @@ content:
           unique: true
 
   - name: interlude
-    label: OFERTAS ML STORE: ATÉ 4 FOTOS COM PREÇO
+    label: OFERTAS ML STORE: ATÉ 5 FOTOS COM PREÇO
     type: file
     path: data/interlude.json
     format: json
     fields:
       - name: photos
-        label: OFERTAS: ADICIONE ATÉ 4 PRODUTOS
+        label: OFERTAS: ADICIONE ATÉ 5 PRODUTOS
         description: Cada item aceita uma foto e um preço. Deixe o preço vazio se não quiser exibi-lo.
         type: object
         list:
-          max: 4
+          max: 5
         fields:
           - name: image
             label: Foto do produto
