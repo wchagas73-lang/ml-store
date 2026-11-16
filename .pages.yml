@@ -55,9 +55,6 @@ content:
       - name: hero_description
         label: Texto de apresentação
         type: text
-      - name: ticker_text
-        label: FRASE DA FAIXA HORIZONTAL DESLIZANTE (EDITE AQUI)
-        type: string
       - name: about_image
         label: Foto da seção A marca
         type: image
@@ -221,28 +218,29 @@ content:
             type: string
             required: false
 
-  - name: reviews
-    label: COMENTÁRIOS: EDITE SOMENTE O TEXTO DAS MENSAGENS
+  - name: ticker
+    label: EDITAR COMENTÁRIOS
     type: file
     path: data/reviews.json
     format: json
     list: true
     fields:
+      - name: name
+        label: Nome exibido
+        description: Use o nome autorizado pela pessoa ou um nome demonstrativo claramente identificado.
+        type: string
       - name: text
         label: Texto do comentário
-        description: Altere somente a mensagem. Nome, foto e estrelas permanecem como estão.
         type: text
-
-  - name: ticker
-    label: EDITAR FRASES DA FAIXA DESLIZANTE
-    type: file
-    path: data/ticker.json
-    format: json
-    list: true
-    fields:
-      - name: text
-        label: Frase exibida na faixa horizontal (edite o texto aqui)
-        type: string
+      - name: avatar
+        label: Foto da pessoa (com autorização)
+        description: Envie uma foto real somente com autorização. Para comentários demonstrativos, mantenha sem foto ou use avatar ilustrativo identificado como demonstrativo.
+        type: image
+        required: false
+        options:
+          media: images
+          path: media/images
+          extensions: [jpg, jpeg, png, webp]
 
   - name: highlights
     label: Artes modernas de destaque
