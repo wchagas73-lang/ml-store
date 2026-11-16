@@ -1,17 +1,9 @@
-[
-  {
-    "image": "/media/images/1000779980.png"
-  },
-  {
-    "image": "/media/images/1000685237.png"
-  },
-  {
-    "image": "/media/images/1000679606.jpg"
-  },
-  {
-    "image": "/media/images/b9345a06-df3e-44c1-ba8c-c61dcb4f9bed-1all1859.jpg"
-  },
-  {
-    "image": "/media/images/1000845728.png"
-  }
-]
+{
+  "photos": [
+    "/media/images/1000779980.png",
+    "/media/images/1000685237.png",
+    "/media/images/1000679606.jpg",
+    "/media/images/b9345a06-df3e-44c1-ba8c-c61dcb4f9bed-1all1859.jpg",
+    "/media/images/1000845728.png"
+  ]
+}
