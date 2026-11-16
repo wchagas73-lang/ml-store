@@ -1,27 +1,20 @@
 {
   "photos": [
-    {
-      "title": "R$ 130,00 💸💥",
-      "image": "/media/images/1000859084-1.jpg"
-    },
-    {
-      "image": "/media/images/1000859081.jpg"
-    },
-    {
-      "image": "/media/images/1000859080.jpg"
-    },
-    {
-      "image": "/media/images/1000859083.jpg"
-    },
-    {
-      "title": "R$ 120,00🔥",
-      "image": "/media/images/1000859082.jpg"
-    },
-    {
-      "image": "/media/images/1000859114.jpg"
-    },
-    {
-      "image": "/media/images/1000859305.jpg"
-    }
+    "/media/images/1000859084-1.jpg",
+    "/media/images/1000859081.jpg",
+    "/media/images/1000859080.jpg",
+    "/media/images/1000859083.jpg",
+    "/media/images/1000859082.jpg",
+    "/media/images/1000859114.jpg",
+    "/media/images/1000859305.jpg"
+  ],
+  "captions": [
+    "R$ 130,00 💸💥",
+    "",
+    "",
+    "",
+    "R$ 120,00🔥",
+    "",
+    ""
   ]
 }
