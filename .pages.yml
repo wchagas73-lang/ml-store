@@ -25,6 +25,7 @@ content:
         type: image
         options:
           media: images
+          path: media/images
       - name: instagram
         label: Link do Instagram
         type: string
@@ -36,6 +37,7 @@ content:
         type: image
         options:
           media: images
+          path: media/images
       - name: hero_position
         label: Enquadramento da foto do topo
         type: select
@@ -61,6 +63,7 @@ content:
         type: image
         options:
           media: images
+          path: media/images
       - name: about_position
         label: Enquadramento da foto A marca
         type: select
@@ -95,6 +98,7 @@ content:
         type: image
         options:
           media: images
+          path: media/images
       - name: manifesto_position
         label: Enquadramento do manifesto
         type: select
@@ -174,6 +178,7 @@ content:
         type: image
         options:
           media: images
+          path: media/images
 
   - name: carousel
     label: COLEÇÃO DE DEZEMBRO: FOTOS ATUAIS E NOVAS (ATÉ 10)
@@ -188,6 +193,7 @@ content:
         required: false
         options:
           media: images
+          path: media/images
           multiple:
             max: 10
           unique: true
@@ -209,6 +215,7 @@ content:
             type: image
             options:
               media: images
+          path: media/images
           - name: price
             label: Preço promocional (ex.: 49,90)
             type: string
