@@ -152,6 +152,8 @@ const CONTENT_BASE='https://raw.githubusercontent.com/wchagas73-lang/ml-store/ma
 let activeRevision='';
 let refreshInProgress=false;
 let galleryFrame=0;
+let carouselFrame=0,streetFrame=0,contentController=null;
+let carouselResumeTimer=null,streetResumeTimer=null;
 
 const setText=(key,value)=>{
   const el=document.querySelector('[data-cms="'+key+'"]');
@@ -229,6 +231,12 @@ async function loadSiteContent(){
     const [siteText,galleryText,carouselText,streetText]=await Promise.all([fetchContent('data/site.json'),fetchContent('data/gallery.json'),fetchContent('data/carousel.json'),fetchContent('data/interlude.json')]);
     const revision=revisionOf(siteText+'|'+galleryText+'|'+carouselText+'|'+streetText);
     if(revision===activeRevision)return;
+    contentController?.abort();contentController=new AbortController();
+    cancelAnimationFrame(carouselFrame);carouselFrame=0;
+    cancelAnimationFrame(streetFrame);streetFrame=0;
+    if(galleryFrame)cancelAnimationFrame(galleryFrame);galleryFrame=0;
+    clearTimeout(carouselResumeTimer);carouselResumeTimer=null;
+    clearTimeout(streetResumeTimer);streetResumeTimer=null;
     const s=JSON.parse(siteText),g=JSON.parse(galleryText),carouselData=JSON.parse(carouselText),streetData=JSON.parse(streetText),carouselItems=(Array.isArray(carouselData)?carouselData:Array.isArray(carouselData.photos)?carouselData.photos:[]),streetItems=(Array.isArray(streetData)?streetData:Array.isArray(streetData.photos)?streetData.photos:[]);
     Object.keys(s).forEach(k=>setText(k,s[k]));
     setText('about_tag',s.about_tag??'');
@@ -265,10 +273,10 @@ async function loadSiteContent(){
         photo.loading=index<2?'eager':'lazy';photo.decoding='async';
         caption.textContent=item.title||'ML Store';figure.append(photo,caption);carouselTrack.append(figure);
         const dot=document.createElement('button');dot.type='button';dot.setAttribute('aria-label','Mostrar foto '+(index+1));
-        dot.addEventListener('click',()=>{marqueePaused=true;carouselTrack.scrollTo({left:figure.offsetLeft,behavior:'smooth'});resumeCarousel();});
+        dot.addEventListener('click',()=>{marqueePaused=true;carouselTrack.scrollTo({left:figure.offsetLeft,behavior:'smooth'});resumeCarousel();},{signal:contentController.signal});
         carouselDots.append(dot);
       });
-      let current=0,marqueeFrame=0,marqueePaused=false,lastFrame=0,resumeTimer=null;
+      let current=0,marqueePaused=false,lastFrame=0;
       const speed=Math.max(0.9,Math.min(1.4,Number(s.carousel_speed)||1.1));
       const originals=[...carouselTrack.children];
       if(photos.length>1){
@@ -280,8 +288,8 @@ async function loadSiteContent(){
         [...carouselDots.children].forEach((dot,i)=>dot.setAttribute('aria-current',i===current?'true':'false'));
       };
       const resumeCarousel=()=>{
-        clearTimeout(resumeTimer);
-        resumeTimer=setTimeout(()=>{marqueePaused=false;lastFrame=0;},1300);
+        clearTimeout(carouselResumeTimer);
+        carouselResumeTimer=setTimeout(()=>{marqueePaused=false;lastFrame=0;},1300);
       };
       const move=(step)=>{
         if(photos.length<2)return;
@@ -289,25 +297,25 @@ async function loadSiteContent(){
         if(target){marqueePaused=true;carouselTrack.scrollTo({left:target.offsetLeft,behavior:'smooth'});resumeCarousel();}
       };
       const animateCarousel=timestamp=>{
-        if(!marqueeFrame)return;
+        if(!carouselFrame)return;
         if(!marqueePaused&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&photos.length>1){
           if(lastFrame){const elapsed=Math.min(40,timestamp-lastFrame);carouselTrack.scrollLeft+=speed*(elapsed/16.67);}
           const loopWidth=carouselTrack.children[photos.length]?.offsetLeft||0;
           if(loopWidth>0&&carouselTrack.scrollLeft>=loopWidth)carouselTrack.scrollLeft-=loopWidth;
         }
         lastFrame=timestamp;
-        marqueeFrame=requestAnimationFrame(animateCarousel);
+        carouselFrame=requestAnimationFrame(animateCarousel);
       };
-      const startMarquee=()=>{if(!marqueeFrame&&photos.length>1&&!matchMedia('(prefers-reduced-motion: reduce)').matches)marqueeFrame=requestAnimationFrame(animateCarousel);};
-      carouselTrack.addEventListener('scroll',updateDots,{passive:true});
-      document.getElementById('carouselPrev')?.addEventListener('click',()=>move(-1));
-      document.getElementById('carouselNext')?.addEventListener('click',()=>move(1));
-      carouselTrack.addEventListener('pointerdown',()=>{marqueePaused=true;clearTimeout(resumeTimer);},{passive:true});
+      const startMarquee=()=>{if(!carouselFrame&&photos.length>1&&!matchMedia('(prefers-reduced-motion: reduce)').matches)carouselFrame=requestAnimationFrame(animateCarousel);};
+      carouselTrack.addEventListener('scroll',updateDots,{passive:true,signal:contentController.signal});
+      document.getElementById('carouselPrev')?.addEventListener('click',()=>move(-1),{signal:contentController.signal});
+      document.getElementById('carouselNext')?.addEventListener('click',()=>move(1),{signal:contentController.signal});
+      carouselTrack.addEventListener('pointerdown',()=>{marqueePaused=true;clearTimeout(carouselResumeTimer);},{passive:true,signal:contentController.signal});
       ['pointerup','pointercancel','touchend'].forEach(event=>carouselTrack.addEventListener(event,resumeCarousel,{passive:true}));
-      carouselTrack.addEventListener('mouseenter',()=>{marqueePaused=true;});
-      carouselTrack.addEventListener('mouseleave',()=>{marqueePaused=false;lastFrame=0;});
-      carouselTrack.addEventListener('focusin',()=>{marqueePaused=true;});
-      carouselTrack.addEventListener('focusout',()=>{marqueePaused=false;lastFrame=0;});
+      carouselTrack.addEventListener('mouseenter',()=>{marqueePaused=true;},{signal:contentController.signal});
+      carouselTrack.addEventListener('mouseleave',()=>{marqueePaused=false;lastFrame=0;},{signal:contentController.signal});
+      carouselTrack.addEventListener('focusin',()=>{marqueePaused=true;},{signal:contentController.signal});
+      carouselTrack.addEventListener('focusout',()=>{marqueePaused=false;lastFrame=0;},{signal:contentController.signal});
       updateDots();startMarquee();
     }
     const tickerTrack=document.getElementById('tickerTrack'),tickerSection=document.getElementById('tickerSection');
@@ -332,7 +340,7 @@ async function loadSiteContent(){
     }
     const streetGrid=document.getElementById('streetStripGrid');
     if(streetGrid){
-      const items=streetItems.map(item=>typeof item==='string'?{image:item,price:''}:item).filter(item=>item&&item.image).slice(0,6);
+      const items=streetItems.map(item=>typeof item==='string'?{image:item,price:''}:item).filter(item=>item&&item.image).slice(0,5);
       const fragment=document.createDocumentFragment();
       items.forEach(item=>{
         const figure=document.createElement('figure'),photo=document.createElement('img');
@@ -349,22 +357,23 @@ async function loadSiteContent(){
       streetGrid.replaceChildren(fragment);
       if(items.length>1&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
         [...streetGrid.children].forEach(node=>{const clone=node.cloneNode(true);clone.setAttribute('aria-hidden','true');clone.querySelector('img')?.setAttribute('alt','');streetGrid.append(clone);});
-        let paused=false,last=0,resumeTimer=null;
+        let paused=false,last=0;
         const speed=Math.max(0.9,Math.min(1.4,Number(s.interlude_speed)||1.1));
-        const resume=()=>{clearTimeout(resumeTimer);resumeTimer=setTimeout(()=>{paused=false;last=0;},1300);};
+        const resume=()=>{clearTimeout(streetResumeTimer);streetResumeTimer=setTimeout(()=>{paused=false;last=0;},1300);};
         const animateStreet=timestamp=>{
+          if(!streetFrame)return;
           if(!paused){
             if(last){const elapsed=Math.min(40,timestamp-last);streetGrid.scrollLeft+=speed*(elapsed/16.67);}
             const loopWidth=streetGrid.children[items.length]?.offsetLeft||0;
             if(loopWidth>0&&streetGrid.scrollLeft>=loopWidth)streetGrid.scrollLeft-=loopWidth;
           }
-          last=timestamp;requestAnimationFrame(animateStreet);
+          last=timestamp;streetFrame=requestAnimationFrame(animateStreet);
         };
-        requestAnimationFrame(animateStreet);
-        streetGrid.addEventListener('pointerdown',()=>{paused=true;clearTimeout(resumeTimer);},{passive:true});
+        streetFrame=requestAnimationFrame(animateStreet);
+        streetGrid.addEventListener('pointerdown',()=>{paused=true;clearTimeout(streetResumeTimer);},{passive:true,signal:contentController.signal});
         ['pointerup','pointercancel','touchend'].forEach(event=>streetGrid.addEventListener(event,resume,{passive:true}));
-        streetGrid.addEventListener('mouseenter',()=>{paused=true;});
-        streetGrid.addEventListener('mouseleave',()=>{paused=false;last=0;});
+        streetGrid.addEventListener('mouseenter',()=>{paused=true;},{signal:contentController.signal});
+        streetGrid.addEventListener('mouseleave',()=>{paused=false;last=0;},{signal:contentController.signal});
       }
     }
     const grid=document.getElementById('galleryGrid');
@@ -405,12 +414,12 @@ async function loadSiteContent(){
           galleryFrame=requestAnimationFrame(animateGallery);
         };
         galleryFrame=requestAnimationFrame(animateGallery);
-        grid.addEventListener('pointerdown',()=>{paused=true;clearTimeout(resumeTimer);},{passive:true});
+        grid.addEventListener('pointerdown',()=>{paused=true;clearTimeout(resumeTimer);},{passive:true,signal:contentController.signal});
         ['pointerup','pointercancel','touchend'].forEach(event=>grid.addEventListener(event,resume,{passive:true}));
-        grid.addEventListener('mouseenter',()=>{paused=true;});
-        grid.addEventListener('mouseleave',()=>{paused=false;last=0;});
-        grid.addEventListener('focusin',()=>{paused=true;});
-        grid.addEventListener('focusout',()=>{paused=false;last=0;});
+        grid.addEventListener('mouseenter',()=>{paused=true;},{signal:contentController.signal});
+        grid.addEventListener('mouseleave',()=>{paused=false;last=0;},{signal:contentController.signal});
+        grid.addEventListener('focusin',()=>{paused=true;},{signal:contentController.signal});
+        grid.addEventListener('focusout',()=>{paused=false;last=0;},{signal:contentController.signal});
       }
     }
     setLinks(s);
