@@ -1,5 +1,7 @@
-[
-  {
-    "image": "/media/images/1000180487.jpg"
-  }
-]
+{
+  "photos": [
+    {
+      "image": "/media/images/1000180487.jpg"
+    }
+  ]
+}
