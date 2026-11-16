@@ -215,7 +215,7 @@ content:
             type: image
             options:
               media: images
-          path: media/images
+              path: media/images
           - name: price
             label: Preço promocional (ex.: 49,90)
             type: string
