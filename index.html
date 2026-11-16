@@ -50,7 +50,7 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
 @media(max-width:760px){.street-strip{padding:0 0 48px}.street-strip-grid{gap:10px;scrollbar-width:thin;scrollbar-color:var(--gold) #222;padding:0 1px 12px}.street-strip-grid figure{flex-basis:78%;height:clamp(230px,65vw,320px);scroll-snap-align:none}}
 @media(prefers-reduced-motion:reduce){.street-strip-grid figure:after,.carousel-track figure:after{animation:none!important}}
 
-/* Quadros padronizados com preenchimento tonal da propria foto */
+/* Quadros padronizados: fotos preenchendo todo o quadro */
 .street-strip-grid,
 .gallery,
 .carousel-track{align-items:flex-start}
@@ -65,23 +65,11 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
   overflow:hidden;
   isolation:isolate;
   background-color:#111;
-  background-position:center;
-  background-size:cover;
   border:0;
 }
 .street-strip-grid figure:before,
 .gallery figure:before,
-.carousel-track figure:before{
-  content:"";
-  position:absolute;
-  z-index:0;
-  inset:-14px;
-  background-image:inherit;
-  background-position:center;
-  background-size:cover;
-  filter:blur(15px) brightness(.82) saturate(1.08);
-  transform:scale(1.06);
-}
+.carousel-track figure:before{display:none !important}
 .street-strip-grid figure img,
 .gallery figure img,
 .carousel-track figure img{
@@ -92,7 +80,7 @@ footer{padding:55px 0 25px}.footer-top{display:flex;justify-content:space-betwee
   width:100%;
   height:100% !important;
   max-height:none;
-  object-fit:contain !important;
+  object-fit:cover !important;
   object-position:center center;
   background:transparent;
   transform:none !important;
