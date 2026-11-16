@@ -151,8 +151,7 @@ content:
     type: file
     path: data/carousel.json
     format: json
-    list:
-      max: 10
+    list: true
     fields:
       - name: title
         label: Legenda da foto (opcional)
@@ -171,8 +170,7 @@ content:
     type: file
     path: data/interlude.json
     format: json
-    list:
-      max: 4
+    list: true
     fields:
       - name: title
         label: Legenda da foto (opcional)
