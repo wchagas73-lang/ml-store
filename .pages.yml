@@ -166,7 +166,8 @@ content:
     type: file
     path: data/gallery.json
     format: json
-    list: true
+    list:
+      max: 6
     fields:
       - name: title
         label: Legenda da foto
@@ -203,10 +204,11 @@ content:
     format: json
     fields:
       - name: photos
-        label: OFERTAS: ADICIONE ATÉ 6 PRODUTOS
+        label: OFERTAS: ADICIONE ATÉ 4 PRODUTOS
         description: Cada item aceita uma foto e um preço. Deixe o preço vazio se não quiser exibi-lo.
         type: object
-        list: true
+        list:
+          max: 4
         fields:
           - name: image
             label: Foto do produto
