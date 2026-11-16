@@ -207,6 +207,39 @@ content:
           unique: true
           extensions: [jpg, jpeg, png, webp, avif]
 
+  - name: reviews
+    label: DEPOIMENTOS DA ML STORE (EDITE OS EXEMPLOS)
+    type: file
+    path: data/reviews.json
+    format: json
+    list: true
+    fields:
+      - name: name
+        label: Nome ou apelido
+        type: string
+      - name: kind
+        label: Tipo de depoimento
+        type: select
+        options:
+          values:
+            - name: DEMONSTRATIVO
+              label: Exemplo demonstrativo
+            - name: CLIENTE
+              label: Depoimento real de cliente
+      - name: rating
+        label: Nota em estrelas
+        type: select
+        options:
+          values: ["1", "2", "3", "4", "5"]
+      - name: text
+        label: Mensagem do depoimento
+        type: text
+      - name: avatar
+        label: Foto de perfil (opcional, com autorização)
+        type: image
+        options:
+          media: images
+
   - name: ticker
     label: EDITAR FRASES DA FAIXA DESLIZANTE
     type: file
